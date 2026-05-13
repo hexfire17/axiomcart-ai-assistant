@@ -51,7 +51,7 @@ def build_vectorstore() -> Chroma:
     store = Chroma.from_documents(
         documents=docs,
         embedding=embeddings,
-        collection_name="axiomcart_products",
+        collection_name="snackstack_menu",
     )
     logger.info("Vector store ready  (%d products indexed)", len(docs))
     return store

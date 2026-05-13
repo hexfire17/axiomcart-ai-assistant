@@ -47,7 +47,7 @@ def lookup_order_by_email(email: str) -> dict | None:
 
 @tool
 def search_product_catalog(query: str) -> str:
-    """Search the AxiomCart product catalog using semantic search (RAG).
+    """Search the SnackStack product catalog using semantic search (RAG).
 
     Args:
         query: natural-language search, e.g. "wireless headphones under 5000"

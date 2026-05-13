@@ -1,5 +1,5 @@
 """
-AxiomCart Multi-Agent Voice System — main entry point.
+SnackStack Multi-Agent Voice System — main entry point.
 
 Usage:
     uv run python -m src.main                # interactive text mode (default)
@@ -17,13 +17,13 @@ from langgraph.types import Command
 from langchain_core.messages import HumanMessage
 
 from src.config import get_logger
-from src.graph import axiomcart_graph
+from src.graph import snackstack_graph
 from src.voice import VoiceRecorder, VoiceSpeaker
 
 logger = get_logger("main")
 
 
-class AxiomCartAssistant:
+class SnackStackAssistant:
     """Wraps the LangGraph multi-agent pipeline with optional voice I/O.
 
     A single thread_id is used for the entire session so the
@@ -56,7 +56,7 @@ class AxiomCartAssistant:
 
         config = {"configurable": {"thread_id": self.thread_id}}
 
-        result = axiomcart_graph.invoke(
+        result = snackstack_graph.invoke(
             {"messages": [HumanMessage(content=text)], "user_query": text},
             config,
         )
@@ -75,7 +75,7 @@ class AxiomCartAssistant:
                 user_answer = input_fn(question)
 
             logger.info("HITL resume: user_answer=%r", user_answer)
-            result = axiomcart_graph.invoke(Command(resume=user_answer), config)
+            result = snackstack_graph.invoke(Command(resume=user_answer), config)
 
         answer = result.get("final_answer", "")
         if not answer:
@@ -85,7 +85,7 @@ class AxiomCartAssistant:
     # ── interactive loops ────────────────────────────────
     def text_loop(self) -> None:
         """REPL-style text interaction."""
-        print("\n🛒  AxiomCart Assistant  (type 'quit' to exit)\n")
+        print("\n🛒  SnackStack Assistant  (type 'quit' to exit)\n")
         while True:
             try:
                 user_input = input("You: ").strip()
@@ -103,7 +103,7 @@ class AxiomCartAssistant:
             logger.error("Voice components not initialised")
             return
 
-        welcome = "Hello! I'm your AxiomCart assistant. How can I help you today?"
+        welcome = "Hello! I'm your SnackStack assistant. How can I help you today?"
         self.speaker.speak(welcome)
 
         for turn in range(1, max_turns + 1):
@@ -127,12 +127,12 @@ class AxiomCartAssistant:
 # ── CLI ──────────────────────────────────────────────────────
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="AxiomCart Multi-Agent Voice System")
+    parser = argparse.ArgumentParser(description="SnackStack Multi-Agent Voice System")
     parser.add_argument("--voice", action="store_true", help="Use microphone input + TTS output")
     parser.add_argument("--query", type=str, help="Run a single text query and exit")
     args = parser.parse_args()
 
-    assistant = AxiomCartAssistant(enable_voice=args.voice)
+    assistant = SnackStackAssistant(enable_voice=args.voice)
 
     if args.query:
         print(assistant.query(args.query))

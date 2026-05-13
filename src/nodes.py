@@ -4,8 +4,8 @@ Graph node functions.
 Architecture:
 
   Main graph:
-    START → orchestrator ─┬─ product_agent ──→ synthesizer → END
-                          └─ support_agent ──↗
+    START → orchestrator ─┬─ menu_agent ──→ synthesizer → END
+                          └─ order_agent ──↗
 
   Each agent is internally a compiled subgraph with a model ⇄ tools loop:
     START → model ─┬─ tools → model (loop back)
@@ -32,7 +32,7 @@ from langgraph.types import Command, Send, interrupt
 
 from src.config import get_logger, llm
 from src.data import SUPPORT_POLICIES
-from src.state import AxiomCartState, ClassificationResult, WorkerInput
+from src.state import SnackStackState, ClassificationResult, WorkerInput
 from src.tools import (
     escalate_to_human,
     get_order_status,
@@ -45,7 +45,7 @@ logger = get_logger("nodes")
 # ── Agent Prompts ────────────────────────────────────────────
 
 PRODUCT_PROMPT = """\
-You are the Product Discovery Agent for AxiomCart.
+You are the Product Discovery Agent for SnackStack.
 
 ROLE: Help customers find and learn about products. You also handle
 general conversation (greetings, thanks, chitchat).
@@ -66,7 +66,7 @@ GUIDELINES:
 """
 
 SUPPORT_PROMPT = f"""\
-You are the Sales Support Agent for AxiomCart.
+You are the Sales Support Agent for SnackStack.
 
 ROLE: Handle order enquiries and escalate issues to human agents.
 
@@ -222,7 +222,7 @@ def build_context(messages: list[AnyMessage]) -> str:
 #  NODE 1 — Orchestrator
 # ═══════════════════════════════════════════════════════════
 
-def orchestrator_node(state: AxiomCartState) -> Command[Literal["product_agent", "support_agent", "synthesizer"]]:
+def orchestrator_node(state: SnackStackState) -> Command[Literal["menu_agent", "order_agent", "synthesizer"]]:
     """Classify the user query and dispatch to the right agent(s)."""
     user_query = state.get("user_query", "")
     if not user_query and state.get("messages"):
@@ -234,24 +234,24 @@ def orchestrator_node(state: AxiomCartState) -> Command[Literal["product_agent",
         f'Analyse this customer query and decide which agent(s) should handle it.\n\n'
         f'QUERY: "{user_query}"\n\n'
         'AGENTS:\n'
-        '  product_agent – product searches, recommendations, catalog questions,\n'
+        '  menu_agent – product searches, recommendations, catalog questions,\n'
         '                  AND general conversation (greetings, thanks, chitchat)\n'
-        '  support_agent   – order status, complaints, escalation to human support\n\n'
+        '  order_agent   – order status, complaints, escalation to human support\n\n'
         'RULES:\n'
         '1. Greetings, chitchat, general questions (hi, hello, thanks, how are you)\n'
-        '   → product_agent only\n'
-        '2. Product-only queries  → product_agent only\n'
-        '3. Order/support queries → support_agent only\n'
+        '   → menu_agent only\n'
+        '2. Product-only queries  → menu_agent only\n'
+        '3. Order/support queries → order_agent only\n'
         '4. Mixed queries         → BOTH agents, requires_synthesis = true\n'
-        '\nIMPORTANT: Only route to support_agent when the query clearly involves\n'
-        'an order, complaint, or support issue. When in doubt, use product_agent.\n'
+        '\nIMPORTANT: Only route to order_agent when the query clearly involves\n'
+        'an order, complaint, or support issue. When in doubt, use menu_agent.\n'
     )
 
     classifier = llm.with_structured_output(ClassificationResult)
     try:
         classification = classifier.invoke(prompt)
     except Exception:
-        logger.exception("Classification failed — defaulting to support_agent")
+        logger.exception("Classification failed — defaulting to order_agent")
         classification = ClassificationResult(
             tasks=[], requires_synthesis=False,
             reasoning="Fallback: classification error",
@@ -287,7 +287,7 @@ def orchestrator_node(state: AxiomCartState) -> Command[Literal["product_agent",
 #  NODE 2 — Product Agent
 # ═══════════════════════════════════════════════════════════
 
-def product_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
+def menu_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
     """Run the product-discovery agent via its model ⇄ tools subgraph."""
     user_query = state.get("user_query", "")
     task_desc  = state.get("task_description", user_query)
@@ -305,7 +305,7 @@ def product_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
     answer = result["messages"][-1].content
 
     # simple insertion to transform answer back to parent type
-    # could also just return the state update and add edge product_agent->synth if desired since this is not dynamic
+    # could also just return the state update and add edge menu_agent->synth if desired since this is not dynamic
     # e.g. return {"agent_results": [{"source": "product_discovery", "response": answer}]}
     return Command(
         update={"agent_results": [{"source": "product_discovery", "response": answer}]},
@@ -317,7 +317,7 @@ def product_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
 #  NODE 3 — Support Agent
 # ═══════════════════════════════════════════════════════════
 
-def support_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
+def order_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
     """Run the sales-support agent via its model ⇄ tools subgraph.
 
     HITL is handled through conversation persistence: if the agent
@@ -347,7 +347,7 @@ def support_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
 #  NODE 4 — Synthesizer
 # ═══════════════════════════════════════════════════════════
 
-def synthesizer_node(state: AxiomCartState) -> dict:
+def synthesizer_node(state: SnackStackState) -> dict:
     """Merge results from one or more agents into a single user-facing reply."""
     results = state.get("agent_results", [])
     user_query = state.get("user_query", "")
@@ -370,7 +370,7 @@ def synthesizer_node(state: AxiomCartState) -> dict:
         f"CUSTOMER QUERY: {user_query}\n\n"
         f"AGENT RESPONSES:\n{parts}\n\n"
         "Write a single, coherent reply that addresses every part of the "
-        "customer's query. Be concise. Speak as 'AxiomCart Assistant'."
+        "customer's query. Be concise. Speak as 'SnackStack Assistant'."
     )
 
     merged = llm.invoke(prompt)

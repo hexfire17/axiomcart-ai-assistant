@@ -1,7 +1,7 @@
 """
 LangGraph state definitions.
 
-AxiomCartState       – the main graph state shared by all nodes.
+SnackStackState       – the main graph state shared by all nodes.
 WorkerInput          – the payload sent to agent workers via Send().
 AgentTask            – structured routing output from the orchestrator.
 ClassificationResult – orchestrator's full decision.
@@ -26,7 +26,7 @@ def agent_results_reducer(current: list[dict], update: list[dict]) -> list[dict]
 class AgentTask(BaseModel):
     """A single task assigned to a specialist agent."""
 
-    agent: Literal["product_agent", "support_agent"] = Field(
+    agent: Literal["menu_agent", "order_agent"] = Field(
         description="Which agent handles this task"
     )
     task_description: str = Field(
@@ -44,7 +44,7 @@ class ClassificationResult(BaseModel):
     reasoning: str = Field(description="Brief explanation of routing decision")
 
 
-class AxiomCartState(TypedDict):
+class SnackStackState(TypedDict):
     """Top-level state that flows through the entire graph."""
 
     # Conversation

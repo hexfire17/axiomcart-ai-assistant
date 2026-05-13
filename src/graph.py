@@ -3,8 +3,8 @@ Build and compile the LangGraph StateGraph.
 
 Graph topology:
 
-  START → orchestrator ─┬─ product_agent ──→ synthesizer → END
-                        └─ support_agent ──↗
+  START → orchestrator ─┬─ menu_agent ──→ synthesizer → END
+                        └─ order_agent ──↗
 
 Each agent is internally a subgraph with a model ⇄ tools loop.
 The MemorySaver checkpointer persists conversation history across
@@ -16,21 +16,21 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
 
 from src.config import get_logger
-from src.nodes import orchestrator_node, product_agent, support_agent, synthesizer_node
-from src.state import AxiomCartState
+from src.nodes import orchestrator_node, menu_agent, order_agent, synthesizer_node
+from src.state import SnackStackState
 
 logger = get_logger("graph")
 
 
 def build_graph() -> StateGraph:
-    """Create, wire, and compile the AxiomCart multi-agent graph."""
+    """Create, wire, and compile the SnackStack multi-agent graph."""
 
-    builder = StateGraph(AxiomCartState)
+    builder = StateGraph(SnackStackState)
 
     # ── Add nodes ────────────────────────────────────────
     builder.add_node("orchestrator", orchestrator_node)
-    builder.add_node("product_agent", product_agent) # call subgraph within node wrapper example
-    builder.add_node("support_agent", support_agent)
+    builder.add_node("menu_agent", menu_agent) # call subgraph within node wrapper example
+    builder.add_node("order_agent", order_agent)
     builder.add_node("synthesizer", synthesizer_node)
 
     # ── Add edges ────────────────────────────────────────
@@ -49,4 +49,4 @@ def build_graph() -> StateGraph:
 
 
 # Module-level singleton
-axiomcart_graph = build_graph()
+snackstack_graph = build_graph()
