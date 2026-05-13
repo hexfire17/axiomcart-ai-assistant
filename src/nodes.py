@@ -29,14 +29,13 @@ from typing import Annotated, Literal, TypedDict
 from langchain_core.messages import AIMessage, AnyMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command, Send, interrupt
+from sympy.multipledispatch.conflict import ordering
 
 from src.config import get_logger, llm
-from src.data import SUPPORT_POLICIES
 from src.state import SnackStackState, ClassificationResult, WorkerInput
 from src.tools import (
-    escalate_to_human,
     get_order_status,
-    search_product_catalog,
+    search_snackstack_menu,
 )
 
 logger = get_logger("nodes")
@@ -44,61 +43,58 @@ logger = get_logger("nodes")
 
 # ── Agent Prompts ────────────────────────────────────────────
 
-PRODUCT_PROMPT = """\
-You are the Product Discovery Agent for SnackStack.
+MENU_PROMPT = """\
+You are the Menu Search & reccomendation Agent for SnackStack.
 
-ROLE: Help customers find and learn about products. You also handle
+ROLE: Help customers find food to eat. You also handle
 general conversation (greetings, thanks, chitchat).
 
 TOOLS:
-  search_product_catalog – semantic search over our product database
+  search_snackstack_menu – semantic search over our menu db
 
 GUIDELINES:
 - For greetings or general chat, respond warmly without calling tools.
-- For product questions, always search the catalog first.
-- Highlight key features and prices.
-- If a product is out of stock, suggest alternatives.
-- If the search returns products the customer has already seen or that
-  don't match what they asked for (wrong brand, wrong category, etc.),
-  be honest and say we don't currently carry what they're looking for.
-  Do NOT present irrelevant products as if they match the request.
+- For menu questions, always search the snackstack menu first.
+- If an item is out of stock, suggest alternatives.
+- If the search returns menu items the customer has already seen or that
+  don't match what they asked for (wrong cuisine, type, dietary restriction, etc.),
+  be honest and say we don't currently have what they're looking for.
+  Do NOT present irrelevant items as if they match the request.
 - Keep responses concise and helpful.
+- Pay extra close attention to dietary restrictions if provided.
 """
 
-SUPPORT_PROMPT = f"""\
-You are the Sales Support Agent for SnackStack.
+ORDER_PROMPT = f"""\
+You are the Order Support Agent for SnackStack.
 
-ROLE: Handle order enquiries and escalate issues to human agents.
+ROLE: Handle order enquiries.
 
 TOOLS:
-  get_order_status   – look up an order by order ID or customer email
-  escalate_to_human  – create a ticket for human support (sends email notification)
-
-POLICIES:
-{SUPPORT_POLICIES}
+  get_order_status   – look up an order by Order ID (e.g. ORD-201), Tracking ID (e.g. SS201TRK), or email.
+                       this tool attempts to normalize customer output and can handle many different formats
+                       for the identifier. If all else fails it will search for a number provided.
 
 GUIDELINES:
-- If the customer has NOT provided an order ID or email, you MUST ask
+- If the customer has NOT provided an order ID, tracking #, or email, you MUST ask
   for it before calling any tools. Say something like: "Could you
-  please provide your order ID (e.g. ORD101) or registered email
-  address so I can look up your order?"
+  please provide your order ID (e.g. ORD101), Tracking ID (e.g. SS201TRK), or email used when placing the order
+  so I can help it up? Remember that there is normalization, so if you see any sort of number and asking for tracking
+  or status, you can attempt to make the tool call.
 - Be empathetic and professional.
-- Only call escalate_to_human when the customer explicitly asks for
-  a human agent OR the issue cannot be resolved.
 - After retrieving information, respond directly to the customer.
 """
 
 
 # ── Tool bindings ────────────────────────────────────────────
 
-product_tools = [search_product_catalog]
-product_tools_by_name = {t.name: t for t in product_tools}
+menu_tools = [search_snackstack_menu]
+menu_tools_by_name = {t.name: t for t in menu_tools}
 
-sales_tools = [get_order_status, escalate_to_human]
-sales_tools_by_name = {t.name: t for t in sales_tools}
+order_tools = [get_order_status]
+order_tools_by_name = {t.name: t for t in order_tools}
 
-product_llm = llm.bind_tools(product_tools)
-sales_llm   = llm.bind_tools(sales_tools)
+menu_llm = llm.bind_tools(menu_tools)
+order_llm   = llm.bind_tools(order_tools)
 
 
 # ═══════════════════════════════════════════════════════════
@@ -119,40 +115,40 @@ def should_continue(state: AgentState) -> str:
 
 # ── Product subgraph ─────────────────────────────────────────
 
-def product_model(state: AgentState) -> dict:
+def menu_model(state: AgentState) -> dict:
     """Call the product LLM (with tools bound)."""
-    response = product_llm.invoke(state["messages"])
-    logger.info("[product:model] tool_calls=%s", bool(response.tool_calls))
+    response = menu_llm.invoke(state["messages"])
+    logger.info("[menu:model] tool_calls=%s", bool(response.tool_calls))
     return {"messages": [response]}
 
 
-def product_tools(state: AgentState) -> dict:
-    """Execute tool calls from the product LLM."""
+def menu_tools(state: AgentState) -> dict:
+    """Execute tool calls from the menu LLM."""
     last = state["messages"][-1]
     results = []
     for tc in last.tool_calls:
         name, args = tc["name"], tc["args"]
-        logger.info("[product:tools] %s(%s)", name, args)
-        out = product_tools_by_name[name].invoke(args) if name in product_tools_by_name else f"Unknown tool: {name}"
+        logger.info("[menu:tools] %s(%s)", name, args)
+        out = menu_tools_by_name[name].invoke(args) if name in menu_tools_by_name else f"Unknown tool: {name}"
         results.append(ToolMessage(content=str(out), tool_call_id=tc["id"]))
     return {"messages": results}
 
 
 pb = StateGraph(AgentState)
-pb.add_node("model", product_model)
-pb.add_node("tools", product_tools)
+pb.add_node("model", menu_model)
+pb.add_node("tools", menu_tools)
 pb.add_edge(START, "model")
 pb.add_conditional_edges("model", should_continue)
 pb.add_edge("tools", "model")
-product_subgraph = pb.compile()
+menu_subgraph = pb.compile()
 
 
 # ── Support subgraph ─────────────────────────────────────────
 
-def support_model(state: AgentState) -> dict:
+def order_model(state: AgentState) -> dict:
     """Call the support LLM. If it asks for info without calling tools,
     use interrupt() to pause the graph and collect user input."""
-    response = sales_llm.invoke(state["messages"])
+    response = order_llm.invoke(state["messages"])
     logger.info("[support:model] tool_calls=%s", bool(response.tool_calls))
 
     # If no tool calls and no tools have been called yet,
@@ -168,14 +164,14 @@ def support_model(state: AgentState) -> dict:
     return {"messages": [response]}
 
 
-def support_tools(state: AgentState) -> dict:
+def order_tools(state: AgentState) -> dict:
     """Execute tool calls from the support LLM."""
     last = state["messages"][-1]
     results = []
     for tc in last.tool_calls:
         name, args = tc["name"], tc["args"]
         logger.info("[support:tools] %s(%s)", name, args)
-        out = sales_tools_by_name[name].invoke(args) if name in sales_tools_by_name else f"Unknown tool: {name}"
+        out = order_tools_by_name[name].invoke(args) if name in order_tools_by_name else f"Unknown tool: {name}"
         results.append(ToolMessage(content=str(out), tool_call_id=tc["id"]))
     return {"messages": results}
 
@@ -193,12 +189,12 @@ def support_should_continue(state: AgentState) -> str:
 
 
 sb = StateGraph(AgentState)
-sb.add_node("model", support_model)
-sb.add_node("tools", support_tools)
+sb.add_node("model", order_model)
+sb.add_node("tools", order_tools)
 sb.add_edge(START, "model")
 sb.add_conditional_edges("model", support_should_continue)
 sb.add_edge("tools", "model")
-support_subgraph = sb.compile()
+order_subgraph = sb.compile()
 
 
 # ── Conversation context helper ──────────────────────────────
@@ -297,8 +293,8 @@ def menu_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
 
     # calling subgraph within the node! - different schema
     # basic conversion to just messages below
-    result = product_subgraph.invoke({"messages": [
-        SystemMessage(content=PRODUCT_PROMPT),
+    result = menu_subgraph.invoke({"messages": [
+        SystemMessage(content=MENU_PROMPT),
         HumanMessage(content=f"{context}Task: {task_desc}\nCustomer query: {user_query}"),
     ]})
 
@@ -330,8 +326,8 @@ def order_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
 
     context = build_context(state.get("messages", []))
 
-    result = support_subgraph.invoke({"messages": [
-        SystemMessage(content=SUPPORT_PROMPT),
+    result = order_subgraph.invoke({"messages": [
+        SystemMessage(content=ORDER_PROMPT),
         HumanMessage(content=f"{context}Task: {task_desc}\nCustomer query: {user_query}"),
     ]})
 

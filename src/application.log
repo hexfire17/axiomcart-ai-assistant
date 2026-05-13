@@ -1,116 +1,183 @@
-14:30:55 | nodes              | INFO    | [support:model] tool_calls=True
-14:30:55 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD102'})
-14:30:55 | tools              | INFO    | get_order_status  identifier='ORD102'
-14:30:57 | nodes              | INFO    | [support:model] tool_calls=False
-14:58:13 | nodes              | INFO    | Orchestrator  query='ORD102 is late, show me headphones'
-14:58:15 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
-14:58:15 | nodes              | INFO    | Support Agent  task='Check the status of order ORD102 and provide an update to the customer.'
-14:58:15 | nodes              | INFO    | Product Agent  task='Show the customer available headphones from the catalog.'
-14:58:16 | nodes              | INFO    | [product:model] tool_calls=True
-14:58:16 | nodes              | INFO    | [product:tools] search_product_catalog({'query': 'headphones'})
-14:58:16 | tools              | INFO    | search_product_catalog  query='headphones'
-14:58:17 | nodes              | INFO    | [support:model] tool_calls=True
-14:58:17 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD102'})
-14:58:17 | tools              | INFO    | get_order_status  identifier='ORD102'
-14:58:19 | nodes              | INFO    | [support:model] tool_calls=False
-14:58:22 | nodes              | INFO    | [product:model] tool_calls=False
-14:58:22 | nodes              | INFO    | Synthesizer  merging 2 agent responses
-15:14:17 | nodes              | INFO    | Orchestrator  query='Where is my order?'
-15:14:19 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
-15:14:19 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
-15:14:21 | nodes              | INFO    | [support:model] tool_calls=False
-15:14:21 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
-15:15:28 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
-15:15:29 | nodes              | INFO    | [support:model] tool_calls=False
-15:15:29 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
-15:15:29 | nodes              | INFO    | [support:model] HITL: user replied 'ORD102'
-15:15:29 | nodes              | INFO    | [support:model] tool_calls=True
-15:15:29 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD102'})
-15:15:29 | tools              | INFO    | get_order_status  identifier='ORD102'
-15:15:31 | nodes              | INFO    | [support:model] tool_calls=False
-15:15:31 | nodes              | INFO    | Synthesizer  single-agent pass-through
-15:26:22 | main               | INFO    | Assistant ready  (voice=False)
-15:26:33 | nodes              | INFO    | Orchestrator  query='Hi how are you today, I am looking for headphones'
-15:26:35 | nodes              | INFO    |   routing=['menu_agent']  synthesis=False
-15:26:35 | nodes              | INFO    | Product Agent  task="Respond to the customer's greeting and assist them in finding headphones by providing product recommendations and answering any catalog-related questions."
-15:26:36 | nodes              | INFO    | [product:model] tool_calls=True
-15:26:36 | nodes              | INFO    | [product:tools] search_product_catalog({'query': 'headphones'})
-15:26:36 | tools              | INFO    | search_product_catalog  query='headphones'
-15:26:38 | nodes              | INFO    | [product:model] tool_calls=False
-15:26:38 | nodes              | INFO    | Synthesizer  single-agent pass-through
-15:27:33 | nodes              | INFO    | Orchestrator  query='are there any cheaper options'
-15:27:34 | nodes              | INFO    |   routing=['menu_agent']  synthesis=False
-15:27:34 | nodes              | INFO    | Product Agent  task='Assist the customer in finding cheaper product options or alternatives.'
-15:27:35 | nodes              | INFO    | [product:model] tool_calls=True
-15:27:35 | nodes              | INFO    | [product:tools] search_product_catalog({'query': 'cheap headphones'})
-15:27:35 | tools              | INFO    | search_product_catalog  query='cheap headphones'
-15:27:36 | nodes              | INFO    | [product:model] tool_calls=False
-15:27:36 | nodes              | INFO    | Synthesizer  single-agent pass-through
-15:28:55 | main               | INFO    | Assistant ready  (voice=True)
-15:28:55 | voice              | INFO    | Agent says: Hello! I'm your SnackStack assistant. How can I help you today?
-15:28:57 | voice              | INFO    | TTS saved → C:\Users\HexFi\AppData\Local\Temp\tts_2fe7f678.mp3
-15:29:01 | main               | INFO    | --- voice turn 1 / 10 ---
-15:29:01 | voice              | INFO    | Recording starts in 3 …
-15:29:02 | voice              | INFO    | Recording starts in 2 …
-15:29:03 | voice              | INFO    | Recording starts in 1 …
-15:29:04 | voice              | INFO    | Recording for 5 s — speak now!
-15:29:09 | voice              | INFO    | Recording complete
-15:29:10 | voice              | INFO    | Transcription: "Hey, I'm looking for some headphones."
-15:29:10 | nodes              | INFO    | Orchestrator  query="Hey, I'm looking for some headphones."
-15:29:12 | nodes              | INFO    |   routing=['menu_agent']  synthesis=False
-15:29:12 | nodes              | INFO    | Product Agent  task='Assist the customer in finding headphones by providing product recommendations and answering any catalog-related questions.'
-15:29:13 | nodes              | INFO    | [product:model] tool_calls=True
-15:29:13 | nodes              | INFO    | [product:tools] search_product_catalog({'query': 'headphones'})
-15:29:13 | tools              | INFO    | search_product_catalog  query='headphones'
-15:29:16 | nodes              | INFO    | [product:model] tool_calls=False
-15:29:16 | nodes              | INFO    | Synthesizer  single-agent pass-through
-15:29:16 | voice              | INFO    | Agent says: Here are some great headphone options for you:
-
-1. **Bose QuietComfort 45 Headphones**
-   - **Price:** ₹10,199
-   - **Fe
-15:29:30 | voice              | INFO    | TTS saved → C:\Users\HexFi\AppData\Local\Temp\tts_2050f652.mp3
-15:38:12 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
-15:38:13 | rag                | INFO    | Vector store ready  (8 products indexed)
-15:38:13 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
-15:38:13 | main               | INFO    | Assistant ready  (voice=True)
-15:38:13 | voice              | INFO    | Agent says: Hello! I'm your SnackStack assistant. How can I help you today?
-15:38:16 | voice              | INFO    | TTS saved → C:\Users\HexFi\AppData\Local\Temp\tts_02c1070a.mp3
-15:38:19 | main               | INFO    | --- voice turn 1 / 10 ---
-15:38:19 | voice              | INFO    | Recording starts in 3 …
-15:38:20 | voice              | INFO    | Recording starts in 2 …
-15:38:21 | voice              | INFO    | Recording starts in 1 …
-15:38:22 | voice              | INFO    | Recording for 5 s — speak now!
-15:38:30 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
-15:38:32 | rag                | INFO    | Vector store ready  (8 products indexed)
-15:38:32 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
-15:38:32 | main               | INFO    | Assistant ready  (voice=True)
-15:38:32 | voice              | INFO    | Agent says: Hello! I'm your SnackStack assistant. How can I help you today?
-15:38:34 | voice              | INFO    | TTS saved → C:\Users\HexFi\AppData\Local\Temp\tts_590e7057.mp3
-15:38:38 | main               | INFO    | --- voice turn 1 / 10 ---
-15:38:38 | voice              | INFO    | Recording starts in 3 …
-15:38:39 | voice              | INFO    | Recording starts in 2 …
-15:38:40 | voice              | INFO    | Recording starts in 1 …
-15:39:28 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
-15:39:29 | rag                | INFO    | Vector store ready  (8 products indexed)
-15:39:29 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
-15:39:30 | main               | INFO    | Assistant ready  (voice=True)
-15:39:30 | voice              | INFO    | Agent says: Hello! I'm your SnackStack assistant. How can I help you today?
-15:39:32 | voice              | INFO    | TTS saved → C:\Users\HexFi\AppData\Local\Temp\tts_51af3ac7.mp3
-15:39:36 | main               | INFO    | --- voice turn 1 / 10 ---
-15:39:36 | voice              | INFO    | Recording starts in 3 …
-15:39:37 | voice              | INFO    | Recording starts in 2 …
-15:39:38 | voice              | INFO    | Recording starts in 1 …
-15:39:39 | voice              | INFO    | Recording for 5 s — speak now!
-15:39:44 | voice              | INFO    | Recording complete
-15:39:46 | voice              | INFO    | Transcription: 'My order ORD 102 is late. Can you tell me about it?'
-15:39:46 | nodes              | INFO    | Orchestrator  query='My order ORD 102 is late. Can you tell me about it?'
-15:39:48 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
-15:39:48 | nodes              | INFO    | Support Agent  task='Check the status of order ORD 102 and provide an update to the customer.'
-15:39:49 | nodes              | INFO    | [support:model] tool_calls=True
-15:39:49 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD 102'})
-15:39:49 | tools              | INFO    | get_order_status  identifier='ORD 102'
-15:39:51 | nodes              | INFO    | [support:model] tool_calls=False
-15:39:51 | nodes              | INFO    | Synthesizer  single-agent pass-through
-15:39:51 | voice              | INFO    | Agent says: I apologize for the delay with your order, Priya. Your Bose QuietComfort 45 Headphones (Order ORD102) are currently dela
-15:39:56 | voice              | INFO    | TTS saved → C:\Users\HexFi\AppData\Local\Temp\tts_a39953c5.mp3
+15:05:58 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:06:01 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:06:10 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:06:12 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:07:40 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:07:43 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:08:04 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:08:08 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:08:18 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:08:19 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:10:55 | tools              | INFO    | search_snackstack_menu query='I am in the mood for italian food, got any?'
+15:14:27 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:14:28 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:15:38 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:15:39 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:15:39 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+15:15:45 | tools              | INFO    | search_snackstack_menu query='I am in the mood for italian food, got any?'
+15:15:52 | nodes              | INFO    | [menu:model] tool_calls=True
+15:15:52 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'vegan Italian food'})
+15:15:52 | tools              | INFO    | search_snackstack_menu query='vegan Italian food'
+15:15:54 | nodes              | INFO    | [menu:model] tool_calls=False
+15:16:10 | nodes              | INFO    | [support:model] tool_calls=True
+15:16:10 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD102'})
+15:16:10 | tools              | INFO    | get_order_status  identifier='ORD102'
+15:16:11 | nodes              | INFO    | [support:model] tool_calls=False
+15:32:13 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:32:15 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:32:15 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+15:32:20 | tools              | INFO    | search_snackstack_menu query='I am in the mood for italian food, got any?'
+15:32:25 | nodes              | INFO    | [menu:model] tool_calls=True
+15:32:25 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'vegan Italian food'})
+15:32:25 | tools              | INFO    | search_snackstack_menu query='vegan Italian food'
+15:32:27 | nodes              | INFO    | [menu:model] tool_calls=False
+15:32:28 | nodes              | INFO    | [support:model] tool_calls=True
+15:32:28 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD102'})
+15:32:28 | tools              | INFO    | get_order_status  identifier='ORD102'
+15:32:29 | nodes              | INFO    | [support:model] tool_calls=False
+15:33:30 | nodes              | INFO    | [support:model] tool_calls=True
+15:33:30 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD-201'})
+15:33:30 | tools              | INFO    | get_order_status  identifier='ORD-201'
+15:33:31 | nodes              | INFO    | [support:model] tool_calls=False
+15:35:48 | nodes              | INFO    | [support:model] tool_calls=True
+15:35:48 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD-201'})
+15:35:48 | tools              | INFO    | get_order_status  identifier='ORD-201'
+15:35:49 | nodes              | INFO    | [support:model] tool_calls=False
+15:36:05 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:36:06 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:36:07 | nodes              | INFO    | [support:model] tool_calls=True
+15:36:07 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD-201'})
+15:36:07 | tools              | INFO    | get_order_status  identifier='ORD-201'
+15:59:36 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+15:59:38 | rag                | INFO    | Vector store ready  (8 products indexed)
+15:59:38 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+15:59:44 | tools              | INFO    | search_snackstack_menu query='I am in the mood for italian food, got any?'
+15:59:49 | nodes              | INFO    | [menu:model] tool_calls=True
+15:59:49 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'vegan Italian food'})
+15:59:49 | tools              | INFO    | search_snackstack_menu query='vegan Italian food'
+15:59:51 | nodes              | INFO    | [menu:model] tool_calls=False
+15:59:55 | nodes              | INFO    | [support:model] tool_calls=True
+15:59:55 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD-201'})
+15:59:55 | tools              | INFO    | get_order_status  identifier='ORD-201'
+15:59:56 | nodes              | INFO    | [support:model] tool_calls=False
+16:00:16 | nodes              | INFO    | [support:model] tool_calls=False
+16:00:16 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+16:00:26 | nodes              | INFO    | [support:model] tool_calls=False
+16:00:26 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+16:00:30 | nodes              | INFO    | [support:model] tool_calls=False
+16:00:30 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+16:00:42 | nodes              | INFO    | [support:model] tool_calls=True
+16:00:42 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD-201'})
+16:00:42 | tools              | INFO    | get_order_status  identifier='ORD-201'
+16:00:43 | nodes              | INFO    | [support:model] tool_calls=False
+16:00:52 | nodes              | INFO    | [support:model] tool_calls=True
+16:00:52 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'SS201TRK'})
+16:00:52 | tools              | INFO    | get_order_status  identifier='SS201TRK'
+16:00:54 | nodes              | INFO    | [support:model] tool_calls=False
+16:01:11 | nodes              | INFO    | [support:model] tool_calls=True
+16:01:11 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD-201'})
+16:01:11 | tools              | INFO    | get_order_status  identifier='ORD-201'
+16:01:12 | nodes              | INFO    | [support:model] tool_calls=False
+16:02:33 | nodes              | INFO    | [support:model] tool_calls=True
+16:02:33 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD-201'})
+16:02:33 | tools              | INFO    | get_order_status  identifier='ORD-201'
+16:02:34 | nodes              | INFO    | [support:model] tool_calls=False
+16:02:53 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+16:02:54 | rag                | INFO    | Vector store ready  (8 products indexed)
+16:02:55 | nodes              | INFO    | [support:model] tool_calls=True
+16:02:55 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD-201'})
+16:02:55 | tools              | INFO    | get_order_status  identifier='ORD-201'
+16:02:55 | tools              | INFO    | searched by order
+16:02:56 | nodes              | INFO    | [support:model] tool_calls=False
+16:03:05 | nodes              | INFO    | [support:model] tool_calls=False
+16:03:05 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+16:03:18 | nodes              | INFO    | [support:model] tool_calls=False
+16:03:18 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+16:03:23 | nodes              | INFO    | [support:model] tool_calls=False
+16:03:23 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+16:03:27 | nodes              | INFO    | [support:model] tool_calls=False
+16:03:27 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+16:03:40 | nodes              | INFO    | [support:model] tool_calls=True
+16:03:40 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'SS201TRK'})
+16:03:40 | tools              | INFO    | get_order_status  identifier='SS201TRK'
+16:03:40 | tools              | INFO    | searched by tracking
+16:03:41 | nodes              | INFO    | [support:model] tool_calls=False
+16:07:15 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+16:07:17 | rag                | INFO    | Vector store ready  (8 products indexed)
+16:07:18 | nodes              | INFO    | [support:model] tool_calls=True
+16:07:18 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+16:07:18 | tools              | INFO    | get_order_status  identifier='201'
+16:07:18 | tools              | INFO    | searched by tracking
+16:07:19 | nodes              | INFO    | [support:model] tool_calls=False
+16:08:24 | nodes              | INFO    | [support:model] tool_calls=True
+16:08:24 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+16:08:24 | tools              | INFO    | get_order_status  identifier='201'
+16:08:24 | tools              | INFO    | searched by tracking
+16:08:25 | nodes              | INFO    | [support:model] tool_calls=False
+16:08:34 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+16:08:35 | rag                | INFO    | Vector store ready  (8 products indexed)
+16:08:35 | nodes              | INFO    | [support:model] tool_calls=True
+16:08:35 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+16:08:35 | tools              | INFO    | get_order_status  identifier='201'
+16:08:35 | tools              | INFO    | searched by tracking
+16:08:35 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12
+  ETA      : 2026-05-13
+16:08:36 | nodes              | INFO    | [support:model] tool_calls=False
+16:08:47 | nodes              | INFO    | [support:model] tool_calls=True
+16:08:47 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'Ord-201'})
+16:08:47 | tools              | INFO    | get_order_status  identifier='Ord-201'
+16:08:47 | tools              | INFO    | searched by order
+16:08:47 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12
+  ETA      : 2026-05-13
+16:08:48 | nodes              | INFO    | [support:model] tool_calls=False
+16:08:59 | nodes              | INFO    | [support:model] tool_calls=True
+16:08:59 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+16:08:59 | tools              | INFO    | get_order_status  identifier='201'
+16:08:59 | tools              | INFO    | searched by tracking
+16:08:59 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12
+  ETA      : 2026-05-13
+16:08:59 | nodes              | INFO    | [support:model] tool_calls=False
+16:09:13 | nodes              | INFO    | [support:model] tool_calls=True
+16:09:13 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ord-201'})
+16:09:13 | tools              | INFO    | get_order_status  identifier='ord-201'
+16:09:13 | tools              | INFO    | searched by order
+16:09:13 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12
+  ETA      : 2026-05-13
+16:09:15 | nodes              | INFO    | [support:model] tool_calls=False
+16:09:28 | nodes              | INFO    | [support:model] tool_calls=True
+16:09:28 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+16:09:28 | tools              | INFO    | get_order_status  identifier='201'
+16:09:28 | tools              | INFO    | searched by tracking
+16:09:28 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12
+  ETA      : 2026-05-13
+16:09:29 | nodes              | INFO    | [support:model] tool_calls=False

@@ -2,32 +2,30 @@
 RAG: Build a ChromaDB vector store from the product catalog.
 
 The vector store is created once at import time and re-used by the
-search_product_catalog tool.
+search_snackstack_menu tool.
 """
 
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 
 from src.config import embeddings, get_logger
-from src.data import PRODUCT_CATALOG
+from src.data import SNACKSTACK_MENU
 
 logger = get_logger("rag")
-
 
 def _build_documents() -> list[Document]:
     """Convert every catalog entry into a LangChain Document."""
     docs: list[Document] = []
-    for p in PRODUCT_CATALOG:
+    for p in SNACKSTACK_MENU:
         content = (
-            f"Product: {p['name']}\n"
-            f"Brand: {p['brand']}\n"
+            f"Dish: {p['name']}\n"
+            f"Cuisine: {p['cuisine']}\n"
             f"Category: {p['category']}\n"
-            f"Price: ₹{p['price']}\n"
+            f"Price: ₹{p['price (INR)']}\n"
             f"Rating: {p['rating']}/5\n"
-            f"Features: {', '.join(p['features'])}\n"
+            f"Dietary Tags: {', '.join(p['dietary_tags'])}\n"
             f"Description: {p['description']}\n"
-            f"Colors: {', '.join(p['colors'])}\n"
-            f"In Stock: {'Yes' if p['in_stock'] else 'No'}"
+            f"Available: {'Yes' if p['availability'] else 'No'}"
         )
         docs.append(
             Document(
@@ -35,9 +33,9 @@ def _build_documents() -> list[Document]:
                 metadata={
                     "id": p["id"],
                     "name": p["name"],
-                    "brand": p["brand"],
+                    "cuisine": p["cuisine"],
                     "category": p["category"],
-                    "price": p["price"],
+                    "price": p["price (INR)"],
                     "rating": p["rating"],
                 },
             )
@@ -46,7 +44,7 @@ def _build_documents() -> list[Document]:
 
 
 def build_vectorstore() -> Chroma:
-    """Create an in-memory ChromaDB collection from the product catalog."""
+    """Create an in-memory ChromaDB collection from the menu."""
     docs = _build_documents()
     store = Chroma.from_documents(
         documents=docs,
@@ -58,4 +56,4 @@ def build_vectorstore() -> Chroma:
 
 
 # Module-level singleton so every importer shares the same store
-product_vectorstore = build_vectorstore()
+menu_vectorstore = build_vectorstore()

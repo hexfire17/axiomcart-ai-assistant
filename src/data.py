@@ -8,162 +8,162 @@ they are plain Python structures so you can see everything at a glance.
 from __future__ import annotations
 
 # ── Product Catalog (used by RAG) ───────────────────────────
-PRODUCT_CATALOG: list[dict] = [
-    {
-        "id": "PROD001",
-        "name": "Air Jordan 1 Retro High OG",
-        "category": "Footwear",
-        "brand": "Nike",
-        "price": 8999,
-        "rating": 4.8,
-        "features": ["Leather upper", "Air-Sole cushioning", "Rubber outsole", "Iconic colorway"],
-        "description": "Classic basketball sneaker with premium leather construction and legendary style.",
-        "in_stock": True,
-        "colors": ["Black/Red", "Chicago", "Royal Blue"],
-    },
-    {
-        "id": "PROD002",
-        "name": "Bose QuietComfort 45 Headphones",
-        "category": "Electronics",
-        "brand": "Bose",
-        "price": 10199,
+SNACKSTACK_MENU: list[dict] = [
+{
+        "id": "DISH001",
+        "name": "Margherita Pizza",
+        "category": "Main Course",
+        "cuisine": "Italian",
+        "price (INR)": 299,
         "rating": 4.7,
-        "features": ["Active Noise Cancellation", "24-hour battery", "Bluetooth 5.1", "USB-C charging"],
-        "description": "Premium wireless noise-cancelling headphones with legendary Bose sound quality.",
-        "in_stock": True,
-        "colors": ["Black", "White Smoke"],
+        "dietary_tags": ["Veg"],
+        "description": "Classic thin crust with tomato, mozzarella, basil",
+        "availability": True
     },
     {
-        "id": "PROD003",
-        "name": "Sony WH-1000XM5 Headphones",
-        "category": "Electronics",
-        "brand": "Sony",
-        "price": 12999,
+        "id": "DISH002",
+        "name": "Vegan Pasta Primavera",
+        "category": "Main Course",
+        "cuisine": "Italian",
+        "price (INR)": 349,
+        "rating": 4.5,
+        "dietary_tags": ["Vegan"],
+        "description": "Penne with seasonal vegetables, olive oil, garlic",
+        "availability": True
+    },
+    {
+        "id": "DISH003",
+        "name": "Butter Chicken",
+        "category": "Main Course",
+        "cuisine": "Indian",
+        "price (INR)": 379,
         "rating": 4.9,
-        "features": ["Industry-leading ANC", "30-hour battery", "Speak-to-Chat", "LDAC Hi-Res Audio"],
-        "description": "Sony's flagship noise-cancelling headphones with exceptional sound quality.",
-        "in_stock": True,
-        "colors": ["Black", "Silver"],
+        "dietary_tags": ["GF"],
+        "description": "Creamy tomato curry with tender chicken and naan",
+        "availability": True
     },
     {
-        "id": "PROD004",
-        "name": "Usha Maxx Air 400mm Table Fan",
-        "category": "Home Appliances",
-        "brand": "Usha",
-        "price": 2700,
-        "rating": 4.3,
-        "features": ["400mm sweep", "3-speed control", "Oscillation", "Low power consumption"],
-        "description": "Powerful table fan with superior air delivery and energy efficiency.",
-        "in_stock": True,
-        "colors": ["White", "Blue"],
+        "id": "DISH004",
+        "name": "Vegan Buddha Bowl",
+        "category": "Main Course",
+        "cuisine": "Fusion",
+        "price (INR)": 319,
+        "rating": 4.6,
+        "dietary_tags": ["Vegan", "GF"],
+        "description": "Quinoa, chickpeas, avocado, greens, tahini",
+        "availability": True
     },
     {
-        "id": "PROD005",
-        "name": "iPhone 15 Pro Max",
-        "category": "Electronics",
-        "brand": "Apple",
-        "price": 159900,
+        "id": "DISH005",
+        "name": "Classic Cheeseburger",
+        "category": "Main Course",
+        "cuisine": "American",
+        "price (INR)": 259,
+        "rating": 4.4,
+        "dietary_tags": [],
+        "description": "Beef patty, cheddar, lettuce, tomato, brioche bun",
+        "availability": True
+    },
+    {
+        "id": "DISH006",
+        "name": "Paneer Tikka",
+        "category": "Starter",
+        "cuisine": "Indian",
+        "price (INR)": 199,
         "rating": 4.8,
-        "features": ["A17 Pro chip", "Titanium design", "48MP camera", "USB-C", "5x optical zoom"],
-        "description": "Apple's most advanced iPhone with titanium design and professional camera.",
-        "in_stock": True,
-        "colors": ["Natural Titanium", "Blue Titanium", "Black Titanium"],
+        "dietary_tags": ["Veg", "GF"],
+        "description": "Tandoor-grilled cottage cheese with peppers",
+        "availability": True
     },
     {
-        "id": "PROD006",
-        "name": "Samsung Galaxy S24 Ultra",
-        "category": "Electronics",
-        "brand": "Samsung",
-        "price": 134999,
+        "id": "DISH007",
+        "name": "Aglio e Olio",
+        "category": "Main Course",
+        "cuisine": "Italian",
+        "price (INR)": 279,
+        "rating": 4.5,
+        "dietary_tags": ["Vegan"],
+        "description": "Spaghetti with garlic, chilli, olive oil, parsley",
+        "availability": True
+    },
+    {
+        "id": "DISH008",
+        "name": "Mango Lassi",
+        "category": "Beverage",
+        "cuisine": "Indian",
+        "price (INR)": 99,
         "rating": 4.7,
-        "features": ["Snapdragon 8 Gen 3", "200MP camera", "S Pen included", "Galaxy AI"],
-        "description": "Samsung's flagship smartphone with Galaxy AI and an exceptional camera system.",
-        "in_stock": True,
-        "colors": ["Titanium Gray", "Titanium Black", "Titanium Violet"],
-    },
-    {
-        "id": "PROD007",
-        "name": "MacBook Air M3 13-inch",
-        "category": "Electronics",
-        "brand": "Apple",
-        "price": 114900,
-        "rating": 4.9,
-        "features": ["M3 chip", "18-hour battery", "Liquid Retina display", "MagSafe charging"],
-        "description": "Supercharged by M3 chip with all-day battery life and a stunning display.",
-        "in_stock": True,
-        "colors": ["Midnight", "Starlight", "Space Gray", "Silver"],
-    },
-    {
-        "id": "PROD008",
-        "name": "boAt Airdopes 141 TWS",
-        "category": "Electronics",
-        "brand": "boAt",
-        "price": 1299,
-        "rating": 4.2,
-        "features": ["42-hour playback", "ENx Technology", "IPX4 water resistance", "BEAST Mode"],
-        "description": "True wireless earbuds with massive battery life and immersive sound.",
-        "in_stock": True,
-        "colors": ["Active Black", "Bold Blue", "Cherry Blossom"],
+        "dietary_tags": ["Veg", "GF"],
+        "description": "Blended yogurt with Alphonso mango, cardamom",
+        "availability": True
     },
 ]
 
 
 # ── Order Database ───────────────────────────────────────────
 ORDER_DATABASE: dict[str, dict] = {
-    "ORD101": {
-        "product": "Air Jordan 1 Retro High OG",
-        "customer_name": "Rahul Sharma",
-        "customer_email": "rahul.sharma@example.com",
-        "status": "Shipped",
-        "price": 8999,
-        "order_date": "2026-02-10",
-        "estimated_delivery": "2026-02-13",
+    "ORD-201": {
+        "item_id": "DISH003",
+        "item_name": "Butter Chicken",
+        "customer_name": "Priya Nair",
+        "customer_email": "priya@example.com",
+        "status": "Out for Delivery",
+        "price": 379,
+        "order_date": "2026-05-12",
+        "estimated_delivery": "2026-05-13",
+        "tracking_id": "SS201TRK"
     },
-    "ORD102": {
-        "product": "Bose QuietComfort 45 Headphones",
-        "customer_name": "Priya Patel",
-        "customer_email": "priya.patel@example.com",
-        "status": "Delayed",
-        "delay_reason": "Bad weather conditions in transit region",
-        "price": 10199,
-        "order_date": "2026-02-08",
-        "estimated_delivery": "2026-02-15",
+    "ORD-202": {
+        "item_id": "DISH001",
+        "item_name": "Margherita Pizza",
+        "customer_name": "Arjun Mehta",
+        "customer_email": "arjun@example.com",
+        "status": "Placed",
+        "price": 299,
+        "order_date": "2026-05-13",
+        "estimated_delivery": "2026-05-13",
+        "tracking_id": "SS202TRK"
     },
-    "ORD103": {
-        "product": "Usha Maxx Air 400mm Table Fan",
-        "customer_name": "Amit Kumar",
-        "customer_email": "amit.kumar@example.com",
-        "status": "Processing",
-        "price": 2700,
-        "order_date": "2026-02-12",
-        "estimated_delivery": "2026-02-20",
+    "ORD-203": {
+        "item_id": "DISH005",
+        "item_name": "Classic Cheeseburger",
+        "customer_name": "Sneha Roy",
+        "customer_email": "sneha@example.com",
+        "status": "Preparing",
+        "price": 259,
+        "order_date": "2026-05-13",
+        "estimated_delivery": "2026-05-13",
+        "tracking_id": "SS203TRK"
     },
-    "ORD104": {
-        "product": "iPhone 15 Pro Max",
-        "customer_name": "Vikram Singh",
-        "customer_email": "vikram.singh@example.com",
-        "status": "Ordered",
-        "price": 159900,
-        "order_date": "2026-02-13",
-        "estimated_delivery": "2026-02-17",
+    "ORD-204": {
+        "item_id": "DISH004",
+        "item_name": "Vegan Buddha Bowl",
+        "customer_name": "Rahul Das",
+        "customer_email": "rahul@example.com",
+        "status": "Delivered",
+        "price": 319,
+        "order_date": "2026-05-13",
+        "estimated_delivery": "2026-05-13",
+        "tracking_id": "SS204TRK"
     },
+    "ORD-205": {
+        "item_id": "DISH006",
+        "item_name": "Paneer Tikka",
+        "customer_name": "Kavya Sharma",
+        "customer_email": "kavya@example.com",
+        "status": "Placed",
+        "price": 199,
+        "order_date": "2026-05-13",
+        "estimated_delivery": "2026-05-13",
+        "tracking_id": "SS205TRK"
+    }
 }
 
-# Mutable queue — filled at runtime by escalate_to_human tool
-ESCALATION_QUEUE: list[dict] = []
-
-
-# ── Support Policies (injected into Support Agent prompt) ──────
-# e.g. maybe legal team or other team owns / fills policies depending on use-case
-SUPPORT_POLICIES = """
-SHIPPING OPTIONS:
-- Rocket (Same-day): ₹199, available before 1 PM in metro cities
-- Glide (3-4 days): ₹99, express delivery
-- Cruise (7-8 days): Free on orders over ₹500
-
-ESCALATION CRITERIA:
-- Customer explicitly requests a human agent
-- Complaint involves safety or legal issues
-- Customer is highly frustrated or angry
-- Issue cannot be resolved with available tools
-""".strip()
+ORDER_BY_TRACKING: dict[str, dict] = {
+    order["tracking_id"]: {**order, "order_id": oid}
+    for oid, order in ORDER_DATABASE.items()
+}
+ORDER_BY_EMAIL: dict[str, dict] = {
+    order["customer_email"]: {**order, "order_id": oid}
+    for oid, order in ORDER_DATABASE.items()
+}
