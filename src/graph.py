@@ -29,7 +29,7 @@ def build_graph() -> StateGraph:
 
     # ── Add nodes ────────────────────────────────────────
     builder.add_node("orchestrator", orchestrator_node)
-    builder.add_node("product_agent", product_agent)
+    builder.add_node("product_agent", product_agent) # call subgraph within node wrapper example
     builder.add_node("support_agent", support_agent)
     builder.add_node("synthesizer", synthesizer_node)
 

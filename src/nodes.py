@@ -109,7 +109,6 @@ class AgentState(TypedDict):
     """Minimal state for the model ⇄ tools subgraph loop."""
     messages: Annotated[list[AnyMessage], operator.add]
 
-
 def should_continue(state: AgentState) -> str:
     """Route after model node: tool_calls → tools, otherwise → END."""
     last = state["messages"][-1]
@@ -187,6 +186,7 @@ def support_should_continue(state: AgentState) -> str:
     last = state["messages"][-1]
     if isinstance(last, HumanMessage):
         return "model"
+    # tools_calls att is handled internally by langgraph library, dictated by LLM response
     if hasattr(last, "tool_calls") and last.tool_calls:
         return "tools"
     return END
@@ -273,13 +273,13 @@ def orchestrator_node(state: AxiomCartState) -> Command[Literal["product_agent",
         targets = [Send("synthesizer", {})]
 
     return Command(
-        update={
+        update={ # update the main axion state
             "tasks": classification.tasks,
             "requires_synthesis": classification.requires_synthesis,
             "user_query": user_query,
             "agent_results": [],  # reset stale results from prior turns
         },
-        goto=targets,
+        goto=targets, # execute the Send List which sends Arg(s) to Node(s)
     )
 
 
@@ -295,6 +295,8 @@ def product_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
 
     context = build_context(state.get("messages", []))
 
+    # calling subgraph within the node! - different schema
+    # basic conversion to just messages below
     result = product_subgraph.invoke({"messages": [
         SystemMessage(content=PRODUCT_PROMPT),
         HumanMessage(content=f"{context}Task: {task_desc}\nCustomer query: {user_query}"),
@@ -302,6 +304,9 @@ def product_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
 
     answer = result["messages"][-1].content
 
+    # simple insertion to transform answer back to parent type
+    # could also just return the state update and add edge product_agent->synth if desired since this is not dynamic
+    # e.g. return {"agent_results": [{"source": "product_discovery", "response": answer}]}
     return Command(
         update={"agent_results": [{"source": "product_discovery", "response": answer}]},
         goto="synthesizer",

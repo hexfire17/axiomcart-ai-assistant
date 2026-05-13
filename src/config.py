@@ -18,15 +18,29 @@ load_dotenv()
 
 # ── Logger ───────────────────────────────────────────────────
 def get_logger(name: str) -> logging.Logger:
-    """Create a module-level logger with a readable format."""
+    """Create a module-level logger with a readable format and file output."""
     logger = logging.getLogger(name)
     if not logger.handlers:
-        handler = logging.StreamHandler(sys.stdout)
-        handler.setFormatter(
-            logging.Formatter("%(asctime)s | %(name)-18s | %(levelname)-7s | %(message)s",
-                              datefmt="%H:%M:%S")
+        # Define the common format for both console and file
+        formatter = logging.Formatter(
+            "%(asctime)s | %(name)-18s | %(levelname)-7s | %(message)s",
+            datefmt="%H:%M:%S"
         )
-        logger.addHandler(handler)
+
+        # 1. Console Handler (stdout)
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setFormatter(formatter)
+        logger.addHandler(console_handler)
+
+        # 2. File Handler (application.log)
+        # 'a' mode ensures it appends to the file rather than overwriting it
+        file_handler = logging.FileHandler("application.log", mode='a', encoding='utf-8')
+        file_handler.setFormatter(formatter)
+        logger.addHandler(file_handler)
+
+        # Optional: prevent logs from doubling up if the root logger is configured
+        logger.propagate = False
+
     logger.setLevel(logging.INFO)
     return logger
 

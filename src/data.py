@@ -154,6 +154,7 @@ ESCALATION_QUEUE: list[dict] = []
 
 
 # ── Support Policies (injected into Support Agent prompt) ──────
+# e.g. maybe legal team or other team owns / fills policies depending on use-case
 SUPPORT_POLICIES = """
 SHIPPING OPTIONS:
 - Rocket (Same-day): ₹199, available before 1 PM in metro cities

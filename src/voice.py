@@ -1,7 +1,7 @@
 """
 Voice I/O layer.
 
-VoiceRecorder – microphone → WAV → Whisper STT → text
+VoiceRecorder – microphone → WAV → OpenAI Whisper STT → text
 VoiceSpeaker  – text → OpenAI TTS → playback
 """
 
@@ -14,7 +14,7 @@ import time
 import uuid
 
 import numpy as np
-import sounddevice as sd
+import sounddevice as sd # library to easily use system default mic / speakers
 import soundfile as sf
 
 from src.config import get_logger, openai_client
@@ -29,10 +29,10 @@ logger = get_logger("voice")
 class VoiceRecorder:
     """Record from the microphone and transcribe with Whisper."""
 
-    def __init__(self, sample_rate: int = 16_000):
+    def __init__(self, sample_rate: int = 16_000): # samples per second converts analog sound wave to digital
         self.sample_rate = sample_rate
 
-    def record(self, duration: int = 5, countdown: bool = True) -> np.ndarray:
+    def record(self, duration: int = 5, countdown: bool = True) -> np.ndarray: # numpy n-dimension array
         """Record *duration* seconds of mono audio."""
         if countdown:
             for i in range(3, 0, -1):
@@ -41,9 +41,9 @@ class VoiceRecorder:
 
         logger.info("Recording for %d s — speak now!", duration)
         audio = sd.rec(
-            int(duration * self.sample_rate),
+            int(duration * self.sample_rate), # how many samples to capture
             samplerate=self.sample_rate,
-            channels=1,
+            channels=1, # channel e.g. mono, stereo, left, right etc
             dtype="float32",
         )
         sd.wait()
@@ -96,8 +96,8 @@ VOICE_OPTIONS = {
 class VoiceSpeaker:
     """Convert text to speech and play it back."""
 
-    def __init__(self, voice: str = "nova", speed: float = 1.0):
-        self.voice = voice
+    def __init__(self, voice: str = "onyx", speed: float = 1.0):
+        self.voice = "onyx"
         self.speed = speed
         self._out_dir = tempfile.gettempdir()
 

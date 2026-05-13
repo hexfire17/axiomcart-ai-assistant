@@ -108,15 +108,18 @@ class AxiomCartAssistant:
 
         for turn in range(1, max_turns + 1):
             logger.info("--- voice turn %d / %d ---", turn, max_turns)
-            _, transcript = self.recorder.record_and_transcribe(duration=5)
+            wav_path, transcript = self.recorder.record_and_transcribe(duration=5)
+
             if not transcript:
                 self.speaker.speak("I didn't catch that. Could you repeat?")
                 continue
             if transcript.lower().strip() in ("goodbye", "bye", "quit", "exit", "thank you"):
                 self.speaker.speak("Goodbye! Have a great day.")
                 break
+
             print(f"\nYou: {transcript}")
             answer = self.query(transcript)
+
             print(f"Assistant: {answer}\n")
             self.speaker.speak(answer)
 
