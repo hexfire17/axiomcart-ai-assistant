@@ -1,0 +1,13 @@
+RESOURCES:
+
+LangGraph: low level orchestration framework e.g. State Graphs / Agent Flow
+https://docs.langchain.com/oss/python/langgraph/overview
+
+LangChain: Agent framework, abstractions & integrations for models, tools, agents
+https://docs.langchain.com/oss/python/langchain/overview
+
+Pydantic: Data validation for Python, used above in llm.with_structured_output() and AgentState type that defines graph & node input/output
+https://pydantic.dev/docs/validation/latest/get-started/
+
+Argparse: stand library for implementing commandline applications e.g. handles params, help msg, etc...
+https://docs.python.org/3/library/argparse.html
