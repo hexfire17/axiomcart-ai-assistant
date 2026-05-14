@@ -15,6 +15,7 @@ user answers on the next).
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
 
+from nodes import parallel_run, sequential_run
 from src.config import get_logger
 from src.nodes import orchestrator_node, menu_agent, order_agent, synthesizer_node
 from src.state import SnackStackState
@@ -29,12 +30,15 @@ def build_graph() -> StateGraph:
 
     # ── Add nodes ────────────────────────────────────────
     builder.add_node("orchestrator", orchestrator_node)
+    #builder.add_node("executor", parallel_run)
+    builder.add_node("executor", sequential_run)
     builder.add_node("menu_agent", menu_agent) # call subgraph within node wrapper example
     builder.add_node("order_agent", order_agent)
     builder.add_node("synthesizer", synthesizer_node)
 
     # ── Add edges ────────────────────────────────────────
     builder.add_edge(START, "orchestrator")
+    builder.add_edge("orchestrator", "executor")
     builder.add_edge("synthesizer", END)
 
     # ── Compile with checkpointer ────────────────────────

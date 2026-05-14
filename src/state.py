@@ -72,3 +72,4 @@ class WorkerInput(TypedDict):
     messages: Annotated[list[AnyMessage], operator.add]
     user_query: str
     task_description: str
+    is_parallel: bool

@@ -53,9 +53,10 @@ TOOLS:
   search_snackstack_menu – semantic search over our menu db
 
 GUIDELINES:
-- For greetings or general chat, respond warmly without calling tools.
 - For menu questions, always search the snackstack menu first.
 - If an item is out of stock, suggest alternatives.
+- If a customer is looking for similar food items or food items at all for reccomendation, ALWAYS search the snackstack menu
+  and only recommend items that are actually provided by the tool. Do NOT pretend we have e.g. indian options that we do not in the menu
 - If the search returns menu items the customer has already seen or that
   don't match what they asked for (wrong cuisine, type, dietary restriction, etc.),
   be honest and say we don't currently have what they're looking for.
@@ -65,6 +66,7 @@ GUIDELINES:
 - Sometimes customers may want either alternative or similar items to those in their order. Check prior message context
   from the tool call from the order agent and use that context to look up options similar to their food item, category,
   cuisine, or dietary restrictions. Do NOT ask them for more details in this case.
+- For greetings or general chat, respond warmly without calling tools.
   """
 
 ORDER_PROMPT = f"""\
@@ -233,17 +235,17 @@ def orchestrator_node(state: SnackStackState) -> Command[Literal["menu_agent", "
         f'Analyse this customer query and decide which agent(s) should handle it.\n\n'
         f'QUERY: "{user_query}"\n\n'
         'AGENTS:\n'
-        '  menu_agent – product searches, recommendations, catalog questions,\n'
+        '  menu_agent – recommendations, similar food options,\n'
         '                  AND general conversation (greetings, thanks, chitchat)\n'
-        '  order_agent   – order status, complaints, escalation to human support\n\n'
+        '  order_agent   – order status\n\n'
         'RULES:\n'
         '1. Greetings, chitchat, general questions (hi, hello, thanks, how are you)\n'
         '   → menu_agent only\n'
-        '2. Product-only queries  → menu_agent only\n'
+        '2. Menu item only queries  → menu_agent only\n'
         '3. Order/support queries → order_agent only\n'
         '4. Mixed queries         → BOTH agents, requires_synthesis = true\n'
         '\nIMPORTANT: Only route to order_agent when the query clearly involves\n'
-        'an order, complaint, or support issue. When in doubt, use menu_agent.\n'
+        'an order status or complaint. When in doubt, use menu_agent.\n'
     )
 
     classifier = llm.with_structured_output(ClassificationResult)
@@ -260,12 +262,19 @@ def orchestrator_node(state: SnackStackState) -> Command[Literal["menu_agent", "
                 [t.agent for t in classification.tasks],
                 classification.requires_synthesis)
 
+    return {
+        "tasks": classification.tasks,
+        "user_query": user_query,
+    }
+
+def parallel_run(state: SnackStackState) -> Command[Literal["menu_agent", "order_agent", "synthesizer"]]:
     targets: list[Send] = []
-    for task in classification.tasks:
+    for task in state.get("tasks", []):
         targets.append(Send(task.agent, {
             "messages": state.get("messages", []),
-            "user_query": user_query,
+            "user_query": state.get("user_query", ""),
             "task_description": task.task_description,
+            "is_parallel": True,
         }))
 
     if not targets:
@@ -273,14 +282,34 @@ def orchestrator_node(state: SnackStackState) -> Command[Literal["menu_agent", "
 
     return Command(
         update={ # update the main axion state
-            "tasks": classification.tasks,
-            "requires_synthesis": classification.requires_synthesis,
-            "user_query": user_query,
+            "tasks": state.get("tasks", []),
+            "requires_synthesis": state.get("requires_synthesis", False),
+            "user_query": state.get("user_query", ""),
             "agent_results": [],  # reset stale results from prior turns
         },
         goto=targets, # execute the Send List which sends Arg(s) to Node(s)
     )
 
+
+def sequential_run(state: SnackStackState) -> Command[Literal["menu_agent", "order_agent", "synthesizer"]]:
+    tasks = state.get("tasks", [])
+
+    if not tasks:
+        return Command(goto="synthesizer")
+
+    current_task = tasks[0]
+    remaining_tasks = tasks[1:]
+
+    return Command(
+        update={
+            "tasks": remaining_tasks,  # Just update the queue
+        },
+        goto=Send(current_task.agent, {
+            "messages": state.get("messages", []),
+            "user_query": state.get("user_query", ""),
+            "task_description": current_task.task_description,
+        })
+    )
 
 # ═══════════════════════════════════════════════════════════
 #  NODE 2 — Product Agent
@@ -290,7 +319,7 @@ def menu_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
     """Run the product-discovery agent via its model ⇄ tools subgraph."""
     user_query = state.get("user_query", "")
     task_desc  = state.get("task_description", user_query)
-    logger.info("Product Agent  task=%r", task_desc)
+    logger.info("Menu Agent  task=%r", task_desc)
 
     context = build_context(state.get("messages", []))
 
@@ -306,9 +335,15 @@ def menu_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
     # simple insertion to transform answer back to parent type
     # could also just return the state update and add edge menu_agent->synth if desired since this is not dynamic
     # e.g. return {"agent_results": [{"source": "product_discovery", "response": answer}]}
+    goto_node = "synthesizer"
+    if not state.get("is_parallel", False):
+        goto_node = "executor" # run remaining tasks
+
     return Command(
-        update={"agent_results": [{"source": "product_discovery", "response": answer}]},
-        goto="synthesizer",
+        update={"agent_results": [{"source": "menu_discovery", "response": answer}],
+                "messages":[AIMessage(content=answer)]},
+
+        goto=goto_node,
     )
 
 
@@ -325,7 +360,7 @@ def order_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
     """
     user_query = state.get("user_query", "")
     task_desc  = state.get("task_description", user_query)
-    logger.info("Support Agent  task=%r", task_desc)
+    logger.info("Order Agent  task=%r", task_desc)
 
     context = build_context(state.get("messages", []))
 
@@ -336,11 +371,17 @@ def order_agent(state: WorkerInput) -> Command[Literal["synthesizer"]]:
 
     answer = result["messages"][-1].content
 
-    return Command(
-        update={"agent_results": [{"source": "sales_support", "response": answer}]},
-        goto="synthesizer",
-    )
+    goto_node = "synthesizer"
+    if not state.get("is_parallel", False):
+        logger.info("running sequentially")
+        goto_node = "executor" # run remaining tasks
 
+    return Command(
+        update={"agent_results": [{"source": "menu_discovery", "response": answer}],
+                "messages":[AIMessage(content=answer)]},
+
+        goto=goto_node,
+    )
 
 # ═══════════════════════════════════════════════════════════
 #  NODE 4 — Synthesizer
@@ -369,7 +410,9 @@ def synthesizer_node(state: SnackStackState) -> dict:
         f"CUSTOMER QUERY: {user_query}\n\n"
         f"AGENT RESPONSES:\n{parts}\n\n"
         "Write a single, coherent reply that addresses every part of the "
-        "customer's query. Be concise. Speak as 'SnackStack Assistant'."
+        "customer's query. Be concise. Speak as 'SnackStack Assistant'. Do NOT"
+        "include anything in the response food item / order-wise that was not explicitly"
+        "looked up via a tool."
     )
 
     merged = llm.invoke(prompt)

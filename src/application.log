@@ -916,3 +916,975 @@ I apologize for the delay with your order (ORD-201) for Butter Chicken, which is
 17:12:18 | tools              | INFO    | search_snackstack_menu query='Aglio e Olio'
 17:12:21 | nodes              | INFO    | [menu:model] tool_calls=False
 17:12:21 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+17:37:27 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+17:37:29 | rag                | INFO    | Vector store ready  (8 products indexed)
+17:37:29 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+17:37:29 | main               | INFO    | Assistant ready  (voice=False)
+17:37:35 | nodes              | INFO    | Orchestrator  query='where is my order'
+17:37:37 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+17:37:37 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+17:37:38 | nodes              | INFO    | [support:model] tool_calls=False
+17:37:38 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:37:38 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order? This will help me look up the status of your order.'
+17:37:42 | main               | INFO    | HITL resume: user_answer='201'
+17:37:42 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+17:37:43 | nodes              | INFO    | [support:model] tool_calls=False
+17:37:43 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:37:43 | nodes              | INFO    | [support:model] HITL: user replied '201'
+17:37:44 | nodes              | INFO    | [support:model] tool_calls=True
+17:37:44 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+17:37:44 | tools              | INFO    | get_order_status  identifier='201'
+17:37:44 | tools              | INFO    | searched by tracking
+17:37:44 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:37:45 | nodes              | INFO    | [support:model] tool_calls=False
+17:37:45 | nodes              | INFO    | Synthesizer  single-agent pass-through
+17:38:00 | nodes              | INFO    | Orchestrator  query='where is order 202 and can you show alternative items'
+17:38:02 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+17:38:02 | nodes              | INFO    | Support Agent  task='Check the status of order 202.'
+17:38:02 | nodes              | INFO    | Product Agent  task='Provide alternative items or recommendations.'
+17:38:03 | nodes              | INFO    | [menu:model] tool_calls=True
+17:38:03 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'order 202'})
+17:38:03 | tools              | INFO    | search_snackstack_menu query='order 202'
+17:38:03 | nodes              | INFO    | [support:model] tool_calls=True
+17:38:03 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '202'})
+17:38:03 | tools              | INFO    | get_order_status  identifier='202'
+17:38:03 | tools              | INFO    | searched by tracking
+17:38:03 | tools              | INFO    | Order ORD-202:
+  Customer : Arjun Mehta (arjun@example.com)
+  Item     : Margherita Pizza
+  Price    : ₹299
+  Status   : Placed
+  Tracking : SS202TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:38:12 | nodes              | INFO    | [support:model] tool_calls=False
+17:38:16 | nodes              | INFO    | [menu:model] tool_calls=True
+17:38:16 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Italian Vegan Main Course'})
+17:38:16 | tools              | INFO    | search_snackstack_menu query='Italian Vegan Main Course'
+17:38:16 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Italian Veg Main Course'})
+17:38:16 | tools              | INFO    | search_snackstack_menu query='Italian Veg Main Course'
+17:38:19 | nodes              | INFO    | [menu:model] tool_calls=False
+17:38:19 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+17:42:08 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+17:42:09 | rag                | INFO    | Vector store ready  (8 products indexed)
+17:42:09 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+17:42:10 | main               | INFO    | Assistant ready  (voice=False)
+17:42:24 | nodes              | INFO    | Orchestrator  query='Hi, where is my order'
+17:42:25 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+17:42:25 | nodes              | INFO    | Support Agent  task='Provide the customer with the status of their order.'
+17:42:26 | nodes              | INFO    | [support:model] tool_calls=False
+17:42:26 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:42:26 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order? This will help me look up the status of your order for you.'
+17:42:31 | main               | INFO    | HITL resume: user_answer='201'
+17:42:31 | nodes              | INFO    | Support Agent  task='Provide the customer with the status of their order.'
+17:42:31 | nodes              | INFO    | [support:model] tool_calls=False
+17:42:31 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:42:31 | nodes              | INFO    | [support:model] HITL: user replied '201'
+17:42:33 | nodes              | INFO    | [support:model] tool_calls=True
+17:42:33 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+17:42:33 | tools              | INFO    | get_order_status  identifier='201'
+17:42:33 | tools              | INFO    | searched by tracking
+17:42:33 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:42:35 | nodes              | INFO    | [support:model] tool_calls=False
+17:42:35 | nodes              | INFO    | Synthesizer  single-agent pass-through
+17:42:50 | nodes              | INFO    | Orchestrator  query='my other order 202 is late, can you show me similar food items to it?'
+17:42:52 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+17:42:52 | nodes              | INFO    | Support Agent  task='Check the status of order 202 and provide an update to the customer.'
+17:42:52 | nodes              | INFO    | [support:model] tool_calls=True
+17:42:52 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '202'})
+17:42:52 | tools              | INFO    | get_order_status  identifier='202'
+17:42:52 | tools              | INFO    | searched by tracking
+17:42:52 | tools              | INFO    | Order ORD-202:
+  Customer : Arjun Mehta (arjun@example.com)
+  Item     : Margherita Pizza
+  Price    : ₹299
+  Status   : Placed
+  Tracking : SS202TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:42:53 | nodes              | INFO    | [support:model] tool_calls=False
+17:42:53 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+17:43:34 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+17:43:35 | rag                | INFO    | Vector store ready  (8 products indexed)
+17:43:35 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+17:43:35 | main               | INFO    | Assistant ready  (voice=False)
+17:43:48 | nodes              | INFO    | Orchestrator  query='hi, my order 201 is late, can you show me similar food items from the menu?'
+17:43:50 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+17:43:50 | nodes              | INFO    | Support Agent  task='Check the status of order 201 and provide an update to the customer.'
+17:43:51 | nodes              | INFO    | [support:model] tool_calls=True
+17:43:51 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+17:43:51 | tools              | INFO    | get_order_status  identifier='201'
+17:43:51 | tools              | INFO    | searched by tracking
+17:43:51 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:43:52 | nodes              | INFO    | [support:model] tool_calls=False
+17:43:52 | nodes              | INFO    | Synthesizer  single-agent pass-through
+17:46:45 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+17:46:46 | rag                | INFO    | Vector store ready  (8 products indexed)
+17:46:46 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+17:46:47 | main               | INFO    | Assistant ready  (voice=False)
+17:46:56 | nodes              | INFO    | Orchestrator  query='my order 201 is late, can you show me similar food options'
+17:46:57 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+17:46:57 | nodes              | INFO    | Support Agent  task='Check the status of order 201 and provide an update to the customer.'
+17:46:58 | nodes              | INFO    | [support:model] tool_calls=True
+17:46:58 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+17:46:58 | tools              | INFO    | get_order_status  identifier='201'
+17:46:58 | tools              | INFO    | searched by tracking
+17:46:58 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:46:59 | nodes              | INFO    | [support:model] tool_calls=False
+17:46:59 | nodes              | INFO    | Product Agent  task='Provide similar food options to the customer.'
+17:47:00 | nodes              | INFO    | [menu:model] tool_calls=True
+17:47:00 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'order 201'})
+17:47:00 | tools              | INFO    | search_snackstack_menu query='order 201'
+17:47:02 | nodes              | INFO    | [menu:model] tool_calls=True
+17:47:02 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Italian Main Course Veg'})
+17:47:02 | tools              | INFO    | search_snackstack_menu query='Italian Main Course Veg'
+17:47:03 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Italian Main Course Vegan'})
+17:47:03 | tools              | INFO    | search_snackstack_menu query='Italian Main Course Vegan'
+17:47:03 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'American Main Course'})
+17:47:03 | tools              | INFO    | search_snackstack_menu query='American Main Course'
+17:47:05 | nodes              | INFO    | [menu:model] tool_calls=False
+17:47:05 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+17:55:07 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+17:55:08 | rag                | INFO    | Vector store ready  (8 products indexed)
+17:55:08 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+17:55:08 | main               | INFO    | Assistant ready  (voice=False)
+17:55:13 | nodes              | INFO    | Orchestrator  query='where is my order'
+17:55:14 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+17:55:14 | nodes              | INFO    | Support Agent  task='Provide the customer with the current status of their order.'
+17:55:15 | nodes              | INFO    | [support:model] tool_calls=False
+17:55:15 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:55:15 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order? This will help me look up the status of your order.'
+17:55:18 | main               | INFO    | HITL resume: user_answer='201'
+17:55:18 | nodes              | INFO    | Support Agent  task='Provide the customer with the current status of their order.'
+17:55:19 | nodes              | INFO    | [support:model] tool_calls=False
+17:55:19 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:55:19 | nodes              | INFO    | [support:model] HITL: user replied '201'
+17:55:20 | nodes              | INFO    | [support:model] tool_calls=True
+17:55:20 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+17:55:20 | tools              | INFO    | get_order_status  identifier='201'
+17:55:20 | tools              | INFO    | searched by tracking
+17:55:20 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:55:21 | nodes              | INFO    | [support:model] tool_calls=False
+17:57:32 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+17:57:34 | rag                | INFO    | Vector store ready  (8 products indexed)
+17:57:34 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+17:57:34 | main               | INFO    | Assistant ready  (voice=False)
+17:57:40 | nodes              | INFO    | Orchestrator  query='where is my order'
+17:57:41 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+17:57:41 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+17:57:45 | nodes              | INFO    | [support:model] tool_calls=False
+17:57:45 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:57:45 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order so I can look it up for you?'
+17:57:50 | main               | INFO    | HITL resume: user_answer='201'
+17:57:50 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+17:57:51 | nodes              | INFO    | [support:model] tool_calls=False
+17:57:51 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:57:51 | nodes              | INFO    | [support:model] HITL: user replied '201'
+17:57:52 | nodes              | INFO    | [support:model] tool_calls=True
+17:57:52 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+17:57:52 | tools              | INFO    | get_order_status  identifier='201'
+17:57:52 | tools              | INFO    | searched by tracking
+17:57:52 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:57:53 | nodes              | INFO    | [support:model] tool_calls=False
+17:57:53 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+17:57:54 | nodes              | INFO    | [support:model] tool_calls=False
+17:57:54 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:57:54 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order? This will help me look up the status of your order.'
+17:58:33 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+17:58:35 | rag                | INFO    | Vector store ready  (8 products indexed)
+17:58:35 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+17:58:35 | main               | INFO    | Assistant ready  (voice=False)
+17:58:39 | nodes              | INFO    | Orchestrator  query='where is my order'
+17:58:40 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+17:58:40 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+17:58:41 | nodes              | INFO    | [support:model] tool_calls=False
+17:58:41 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:58:41 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order so I can look it up for you?'
+17:58:43 | main               | INFO    | HITL resume: user_answer='201'
+17:58:43 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+17:58:44 | nodes              | INFO    | [support:model] tool_calls=False
+17:58:44 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:58:44 | nodes              | INFO    | [support:model] HITL: user replied '201'
+17:58:45 | nodes              | INFO    | [support:model] tool_calls=True
+17:58:45 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+17:58:45 | tools              | INFO    | get_order_status  identifier='201'
+17:58:45 | tools              | INFO    | searched by tracking
+17:58:45 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+17:58:46 | nodes              | INFO    | [support:model] tool_calls=False
+17:58:46 | nodes              | INFO    | running sequentially
+17:58:46 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+17:58:46 | nodes              | INFO    | [support:model] tool_calls=False
+17:58:46 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+17:58:46 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order? This will help me look up the status of your order.'
+18:02:48 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:02:50 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:02:50 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:02:50 | main               | INFO    | Assistant ready  (voice=False)
+18:02:53 | nodes              | INFO    | Orchestrator  query='where is my order'
+18:02:55 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+18:02:55 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+18:02:59 | nodes              | INFO    | [support:model] tool_calls=False
+18:02:59 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:02:59 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order so I can look it up for you?'
+18:03:01 | main               | INFO    | HITL resume: user_answer='201'
+18:03:01 | nodes              | INFO    | Support Agent  task="Check the status of the customer's order and provide an update."
+18:03:02 | nodes              | INFO    | [support:model] tool_calls=False
+18:03:02 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:03:02 | nodes              | INFO    | [support:model] HITL: user replied '201'
+18:03:03 | nodes              | INFO    | [support:model] tool_calls=True
+18:03:03 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:03:03 | tools              | INFO    | get_order_status  identifier='201'
+18:03:03 | tools              | INFO    | searched by tracking
+18:03:03 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:03:04 | nodes              | INFO    | [support:model] tool_calls=False
+18:03:04 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:03:22 | nodes              | INFO    | Orchestrator  query='my other order 202 is also late, can you show some similar food options?'
+18:03:23 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:03:23 | nodes              | INFO    | Support Agent  task='Check the status of order 202 and provide an update to the customer.'
+18:03:23 | nodes              | INFO    | Product Agent  task='Provide similar food options to the customer.'
+18:03:24 | nodes              | INFO    | [support:model] tool_calls=True
+18:03:24 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '202'})
+18:03:24 | tools              | INFO    | get_order_status  identifier='202'
+18:03:24 | tools              | INFO    | searched by tracking
+18:03:24 | tools              | INFO    | Order ORD-202:
+  Customer : Arjun Mehta (arjun@example.com)
+  Item     : Margherita Pizza
+  Price    : ₹299
+  Status   : Placed
+  Tracking : SS202TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:03:24 | nodes              | INFO    | [menu:model] tool_calls=True
+18:03:24 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'order 202'})
+18:03:24 | tools              | INFO    | search_snackstack_menu query='order 202'
+18:03:25 | nodes              | INFO    | [support:model] tool_calls=False
+18:03:27 | nodes              | INFO    | [menu:model] tool_calls=False
+18:03:27 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:04:53 | tools              | INFO    | search_snackstack_menu query='I am in the mood for italian food, got any?'
+18:05:12 | nodes              | INFO    | [menu:model] tool_calls=True
+18:05:12 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'vegan Italian food'})
+18:05:12 | tools              | INFO    | search_snackstack_menu query='vegan Italian food'
+18:05:14 | nodes              | INFO    | [menu:model] tool_calls=False
+18:05:20 | nodes              | INFO    | [support:model] tool_calls=True
+18:05:20 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:05:20 | tools              | INFO    | get_order_status  identifier='201'
+18:05:20 | tools              | INFO    | searched by tracking
+18:05:20 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:05:20 | nodes              | INFO    | [support:model] tool_calls=False
+18:05:38 | nodes              | INFO    | Orchestrator  query='My order ORD201 is late show me alternative similar food options'
+18:05:39 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:05:39 | nodes              | INFO    | Support Agent  task='Check the status of order ORD201 and provide an update to the customer.'
+18:05:39 | nodes              | INFO    | Product Agent  task='Provide alternative similar food options to the customer.'
+18:05:40 | nodes              | INFO    | [menu:model] tool_calls=True
+18:05:40 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'ORD201'})
+18:05:40 | tools              | INFO    | search_snackstack_menu query='ORD201'
+18:05:40 | nodes              | INFO    | [support:model] tool_calls=True
+18:05:40 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD201'})
+18:05:40 | tools              | INFO    | get_order_status  identifier='ORD201'
+18:05:40 | tools              | INFO    | searched by order
+18:05:40 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:05:42 | nodes              | INFO    | [support:model] tool_calls=False
+18:05:43 | nodes              | INFO    | [menu:model] tool_calls=True
+18:05:43 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Vegan Pasta Primavera'})
+18:05:43 | tools              | INFO    | search_snackstack_menu query='Vegan Pasta Primavera'
+18:05:43 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Classic Cheeseburger'})
+18:05:43 | tools              | INFO    | search_snackstack_menu query='Classic Cheeseburger'
+18:05:43 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Aglio e Olio'})
+18:05:43 | tools              | INFO    | search_snackstack_menu query='Aglio e Olio'
+18:05:46 | nodes              | INFO    | [menu:model] tool_calls=False
+18:05:46 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:08:56 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:08:57 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:08:57 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:08:57 | nodes              | INFO    | Orchestrator  query='My order ORD201 is late show me alternative similar food options'
+18:08:58 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:08:58 | nodes              | INFO    | Order Agent  task='Check the status of order ORD201 and provide an update to the customer.'
+18:08:58 | nodes              | INFO    | Menu Agent  task='Provide alternative similar food options to the customer.'
+18:08:59 | nodes              | INFO    | [menu:model] tool_calls=True
+18:08:59 | nodes              | INFO    | [support:model] tool_calls=True
+18:08:59 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'ORD201'})
+18:08:59 | tools              | INFO    | search_snackstack_menu query='ORD201'
+18:08:59 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD201'})
+18:08:59 | tools              | INFO    | get_order_status  identifier='ORD201'
+18:08:59 | tools              | INFO    | searched by order
+18:08:59 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:09:01 | nodes              | INFO    | [menu:model] tool_calls=True
+18:09:01 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Italian Vegan Main Course'})
+18:09:01 | tools              | INFO    | search_snackstack_menu query='Italian Vegan Main Course'
+18:09:01 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'American Main Course'})
+18:09:01 | tools              | INFO    | search_snackstack_menu query='American Main Course'
+18:09:01 | nodes              | INFO    | [support:model] tool_calls=False
+18:09:03 | nodes              | INFO    | [menu:model] tool_calls=False
+18:09:03 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:09:57 | nodes              | INFO    | Orchestrator  query='My order ORD201 is late show me alternative similar food options'
+18:09:59 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:09:59 | nodes              | INFO    | Order Agent  task='Check the status of order ORD201 and provide an update to the customer.'
+18:09:59 | nodes              | INFO    | Menu Agent  task='Provide alternative similar food options to the customer.'
+18:09:59 | nodes              | INFO    | [support:model] tool_calls=True
+18:09:59 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD201'})
+18:09:59 | tools              | INFO    | get_order_status  identifier='ORD201'
+18:09:59 | tools              | INFO    | searched by order
+18:09:59 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:09:59 | nodes              | INFO    | [menu:model] tool_calls=True
+18:09:59 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'ORD201'})
+18:09:59 | tools              | INFO    | search_snackstack_menu query='ORD201'
+18:10:00 | nodes              | INFO    | [support:model] tool_calls=False
+18:10:01 | nodes              | INFO    | [menu:model] tool_calls=True
+18:10:01 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Vegan Italian Main Course'})
+18:10:01 | tools              | INFO    | search_snackstack_menu query='Vegan Italian Main Course'
+18:10:01 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'American Main Course'})
+18:10:01 | tools              | INFO    | search_snackstack_menu query='American Main Course'
+18:10:07 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:10:08 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:10:08 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:10:08 | nodes              | INFO    | Orchestrator  query='My order ORD201 is late show me alternative similar food options'
+18:10:09 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:10:09 | nodes              | INFO    | Order Agent  task='Check the status of order ORD201 and provide an update to the customer.'
+18:10:09 | nodes              | INFO    | Menu Agent  task='Provide alternative similar food options to the customer.'
+18:10:10 | nodes              | INFO    | [support:model] tool_calls=True
+18:10:10 | nodes              | INFO    | [menu:model] tool_calls=True
+18:10:10 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD201'})
+18:10:10 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'ORD201'})
+18:10:10 | tools              | INFO    | get_order_status  identifier='ORD201'
+18:10:10 | tools              | INFO    | search_snackstack_menu query='ORD201'
+18:10:10 | tools              | INFO    | searched by order
+18:10:10 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:10:11 | nodes              | INFO    | [support:model] tool_calls=False
+18:10:15 | nodes              | INFO    | [menu:model] tool_calls=True
+18:10:15 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Vegan Italian main course'})
+18:10:15 | tools              | INFO    | search_snackstack_menu query='Vegan Italian main course'
+18:10:15 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'American main course'})
+18:10:15 | tools              | INFO    | search_snackstack_menu query='American main course'
+18:10:19 | nodes              | INFO    | [menu:model] tool_calls=False
+18:10:19 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:10:42 | nodes              | INFO    | Orchestrator  query='My order ORD201 is late show me alternative food options'
+18:10:43 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:10:43 | nodes              | INFO    | Order Agent  task='Check the status of order ORD201 and provide an update to the customer.'
+18:10:43 | nodes              | INFO    | Menu Agent  task='Suggest alternative food options to the customer.'
+18:10:44 | nodes              | INFO    | [menu:model] tool_calls=True
+18:10:44 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'ORD201'})
+18:10:44 | tools              | INFO    | search_snackstack_menu query='ORD201'
+18:10:44 | nodes              | INFO    | [support:model] tool_calls=True
+18:10:44 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD201'})
+18:10:44 | tools              | INFO    | get_order_status  identifier='ORD201'
+18:10:44 | tools              | INFO    | searched by order
+18:10:44 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:10:45 | nodes              | INFO    | [support:model] tool_calls=False
+18:10:45 | nodes              | INFO    | [menu:model] tool_calls=True
+18:10:45 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Italian Vegan Main Course'})
+18:10:45 | tools              | INFO    | search_snackstack_menu query='Italian Vegan Main Course'
+18:10:45 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'American Main Course'})
+18:10:45 | tools              | INFO    | search_snackstack_menu query='American Main Course'
+18:10:48 | nodes              | INFO    | [menu:model] tool_calls=False
+18:10:48 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:10:54 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:10:55 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:10:55 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:10:55 | nodes              | INFO    | Orchestrator  query='My order ORD201 is late show me alternative food options'
+18:11:02 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:11:02 | nodes              | INFO    | Order Agent  task='Check the status of order ORD201 and provide an update to the customer.'
+18:11:02 | nodes              | INFO    | Menu Agent  task='Provide alternative food options to the customer.'
+18:11:03 | nodes              | INFO    | [menu:model] tool_calls=True
+18:11:03 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'alternative food options'})
+18:11:03 | tools              | INFO    | search_snackstack_menu query='alternative food options'
+18:11:03 | nodes              | INFO    | [support:model] tool_calls=True
+18:11:03 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD201'})
+18:11:03 | tools              | INFO    | get_order_status  identifier='ORD201'
+18:11:03 | tools              | INFO    | searched by order
+18:11:03 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:11:04 | nodes              | INFO    | [support:model] tool_calls=False
+18:11:05 | nodes              | INFO    | [menu:model] tool_calls=False
+18:11:05 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:11:22 | nodes              | INFO    | Orchestrator  query='Where is my order?'
+18:11:23 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+18:11:23 | nodes              | INFO    | Order Agent  task='Provide the customer with the status of their order.'
+18:11:24 | nodes              | INFO    | [support:model] tool_calls=False
+18:11:24 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:11:25 | nodes              | INFO    | Order Agent  task='Provide the customer with the status of their order.'
+18:11:28 | nodes              | INFO    | [support:model] tool_calls=False
+18:11:28 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:11:28 | nodes              | INFO    | [support:model] HITL: user replied '201'
+18:11:28 | nodes              | INFO    | [support:model] tool_calls=True
+18:11:28 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:11:28 | tools              | INFO    | get_order_status  identifier='201'
+18:11:28 | tools              | INFO    | searched by tracking
+18:11:28 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:11:29 | nodes              | INFO    | [support:model] tool_calls=False
+18:11:29 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:11:44 | main               | INFO    | Assistant ready  (voice=False)
+18:11:49 | nodes              | INFO    | Orchestrator  query='where is my order'
+18:11:50 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+18:11:50 | nodes              | INFO    | Order Agent  task="Check the status of the customer's order and provide an update."
+18:11:51 | nodes              | INFO    | [support:model] tool_calls=False
+18:11:51 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:11:51 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order? This will help me look up the status of your order.'
+18:11:53 | main               | INFO    | HITL resume: user_answer='201'
+18:11:53 | nodes              | INFO    | Order Agent  task="Check the status of the customer's order and provide an update."
+18:11:53 | nodes              | INFO    | [support:model] tool_calls=False
+18:11:53 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:11:53 | nodes              | INFO    | [support:model] HITL: user replied '201'
+18:11:54 | nodes              | INFO    | [support:model] tool_calls=True
+18:11:54 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:11:54 | tools              | INFO    | get_order_status  identifier='201'
+18:11:54 | tools              | INFO    | searched by tracking
+18:11:54 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:11:55 | nodes              | INFO    | [support:model] tool_calls=False
+18:11:55 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:12:02 | nodes              | INFO    | Orchestrator  query='show me similar food options'
+18:12:03 | nodes              | INFO    |   routing=['menu_agent']  synthesis=False
+18:12:03 | nodes              | INFO    | Menu Agent  task="Provide similar food options based on the customer's preferences or previous orders."
+18:12:06 | nodes              | INFO    | [menu:model] tool_calls=True
+18:12:06 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'similar food options'})
+18:12:06 | tools              | INFO    | search_snackstack_menu query='similar food options'
+18:12:07 | nodes              | INFO    | [menu:model] tool_calls=False
+18:12:07 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:12:27 | nodes              | INFO    | Orchestrator  query='my other order 202 is late, show me alternative foods'
+18:12:29 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:12:29 | nodes              | INFO    | Order Agent  task='Check the status of order 202 and provide an update to the customer.'
+18:12:29 | nodes              | INFO    | Menu Agent  task='Suggest alternative food options to the customer.'
+18:12:30 | nodes              | INFO    | [support:model] tool_calls=True
+18:12:30 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '202'})
+18:12:30 | tools              | INFO    | get_order_status  identifier='202'
+18:12:30 | tools              | INFO    | searched by tracking
+18:12:30 | tools              | INFO    | Order ORD-202:
+  Customer : Arjun Mehta (arjun@example.com)
+  Item     : Margherita Pizza
+  Price    : ₹299
+  Status   : Placed
+  Tracking : SS202TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:12:30 | nodes              | INFO    | [menu:model] tool_calls=True
+18:12:30 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'alternative foods'})
+18:12:30 | tools              | INFO    | search_snackstack_menu query='alternative foods'
+18:12:31 | nodes              | INFO    | [support:model] tool_calls=False
+18:12:31 | nodes              | INFO    | [menu:model] tool_calls=False
+18:12:31 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:13:19 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:13:20 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:13:20 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:13:20 | main               | INFO    | Assistant ready  (voice=False)
+18:13:29 | nodes              | INFO    | Orchestrator  query='my order 201 is late, show me similar food options'
+18:13:31 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:13:31 | nodes              | INFO    | Order Agent  task='Check the status of order 201 and provide an update to the customer.'
+18:13:32 | nodes              | INFO    | [support:model] tool_calls=True
+18:13:32 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:13:32 | tools              | INFO    | get_order_status  identifier='201'
+18:13:32 | tools              | INFO    | searched by tracking
+18:13:32 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:13:33 | nodes              | INFO    | [support:model] tool_calls=False
+18:13:33 | nodes              | INFO    | running sequentially
+18:13:33 | nodes              | INFO    | Menu Agent  task='Provide similar food options to the customer.'
+18:13:34 | nodes              | INFO    | [menu:model] tool_calls=True
+18:13:34 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'order 201'})
+18:13:34 | tools              | INFO    | search_snackstack_menu query='order 201'
+18:13:35 | nodes              | INFO    | [menu:model] tool_calls=True
+18:13:35 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Italian main course'})
+18:13:35 | tools              | INFO    | search_snackstack_menu query='Italian main course'
+18:13:35 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'American main course'})
+18:13:35 | tools              | INFO    | search_snackstack_menu query='American main course'
+18:13:37 | nodes              | INFO    | [menu:model] tool_calls=False
+18:13:37 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:21:36 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:21:38 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:21:38 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:21:38 | main               | INFO    | Assistant ready  (voice=False)
+18:21:42 | nodes              | INFO    | Orchestrator  query='where is my order'
+18:21:44 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+18:21:44 | nodes              | INFO    | Order Agent  task="Check the status of the customer's order and provide an update."
+18:21:45 | nodes              | INFO    | [support:model] tool_calls=False
+18:21:45 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:21:45 | main               | INFO    | HITL interrupt: 'Could you please provide your order ID (e.g. ORD201), Tracking ID (e.g. SS201TRK), or the email used when placing the order? This will help me look up the status of your order.'
+18:21:47 | main               | INFO    | HITL resume: user_answer='201'
+18:21:47 | nodes              | INFO    | Order Agent  task="Check the status of the customer's order and provide an update."
+18:21:48 | nodes              | INFO    | [support:model] tool_calls=False
+18:21:48 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:21:48 | nodes              | INFO    | [support:model] HITL: user replied '201'
+18:21:48 | nodes              | INFO    | [support:model] tool_calls=True
+18:21:48 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:21:48 | tools              | INFO    | get_order_status  identifier='201'
+18:21:48 | tools              | INFO    | searched by tracking
+18:21:48 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:21:49 | nodes              | INFO    | [support:model] tool_calls=False
+18:21:49 | nodes              | INFO    | running sequentially
+18:21:49 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:22:02 | nodes              | INFO    | Orchestrator  query='where is my other order 202 and show me similar items to it'
+18:22:04 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:22:04 | nodes              | INFO    | Order Agent  task='Check the status of order 202 and provide an update to the customer.'
+18:22:04 | nodes              | INFO    | [support:model] tool_calls=True
+18:22:04 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '202'})
+18:22:04 | tools              | INFO    | get_order_status  identifier='202'
+18:22:04 | tools              | INFO    | searched by tracking
+18:22:04 | tools              | INFO    | Order ORD-202:
+  Customer : Arjun Mehta (arjun@example.com)
+  Item     : Margherita Pizza
+  Price    : ₹299
+  Status   : Placed
+  Tracking : SS202TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:22:06 | nodes              | INFO    | [support:model] tool_calls=False
+18:22:06 | nodes              | INFO    | running sequentially
+18:22:06 | nodes              | INFO    | Menu Agent  task='Provide recommendations for similar items to order 202.'
+18:22:06 | nodes              | INFO    | [menu:model] tool_calls=True
+18:22:06 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Margherita Pizza'})
+18:22:06 | tools              | INFO    | search_snackstack_menu query='Margherita Pizza'
+18:22:08 | nodes              | INFO    | [menu:model] tool_calls=False
+18:22:08 | nodes              | INFO    | Synthesizer  merging 3 agent responses
+18:23:32 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:23:35 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:23:35 | tools              | INFO    | search_snackstack_menu query='I am in the mood for italian food, got any?'
+18:23:37 | nodes              | INFO    | [menu:model] tool_calls=True
+18:23:37 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'vegan Italian food'})
+18:23:37 | tools              | INFO    | search_snackstack_menu query='vegan Italian food'
+18:23:38 | nodes              | INFO    | [menu:model] tool_calls=False
+18:23:45 | nodes              | INFO    | [support:model] tool_calls=True
+18:23:45 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:23:45 | tools              | INFO    | get_order_status  identifier='201'
+18:23:45 | tools              | INFO    | searched by tracking
+18:23:45 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:23:47 | nodes              | INFO    | [support:model] tool_calls=False
+18:24:01 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:24:01 | nodes              | INFO    | Orchestrator  query='My order ORD201 is late show me alternative food options'
+18:24:02 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:24:02 | nodes              | INFO    | Order Agent  task='Check the status of order ORD201 and provide an update to the customer.'
+18:24:02 | nodes              | INFO    | Menu Agent  task='Provide alternative food options to the customer.'
+18:24:03 | nodes              | INFO    | [support:model] tool_calls=True
+18:24:03 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD201'})
+18:24:03 | tools              | INFO    | get_order_status  identifier='ORD201'
+18:24:03 | tools              | INFO    | searched by order
+18:24:03 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:24:04 | nodes              | INFO    | [support:model] tool_calls=False
+18:24:04 | nodes              | INFO    | [menu:model] tool_calls=True
+18:24:04 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'ORD201'})
+18:24:04 | tools              | INFO    | search_snackstack_menu query='ORD201'
+18:24:06 | nodes              | INFO    | [menu:model] tool_calls=True
+18:24:06 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Vegan Pasta Primavera'})
+18:24:06 | tools              | INFO    | search_snackstack_menu query='Vegan Pasta Primavera'
+18:24:06 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Classic Cheeseburger'})
+18:24:06 | tools              | INFO    | search_snackstack_menu query='Classic Cheeseburger'
+18:24:06 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Aglio e Olio'})
+18:24:06 | tools              | INFO    | search_snackstack_menu query='Aglio e Olio'
+18:24:09 | nodes              | INFO    | [menu:model] tool_calls=False
+18:24:09 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:24:31 | nodes              | INFO    | Orchestrator  query='Where is my order?'
+18:24:32 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+18:24:32 | nodes              | INFO    | Order Agent  task="Check the status of the customer's order and provide an update."
+18:24:33 | nodes              | INFO    | [support:model] tool_calls=False
+18:24:33 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:24:35 | nodes              | INFO    | Order Agent  task="Check the status of the customer's order and provide an update."
+18:24:35 | nodes              | INFO    | [support:model] tool_calls=False
+18:24:35 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:24:35 | nodes              | INFO    | [support:model] HITL: user replied '201'
+18:24:36 | nodes              | INFO    | [support:model] tool_calls=True
+18:24:36 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:24:36 | tools              | INFO    | get_order_status  identifier='201'
+18:24:36 | tools              | INFO    | searched by tracking
+18:24:36 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:24:37 | nodes              | INFO    | [support:model] tool_calls=False
+18:24:37 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:24:44 | main               | INFO    | Assistant ready  (voice=False)
+18:24:53 | nodes              | INFO    | Orchestrator  query='where is my order 201'
+18:24:54 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+18:24:54 | nodes              | INFO    | Order Agent  task='Check the status of order 201 and provide an update to the customer.'
+18:24:54 | nodes              | INFO    | [support:model] tool_calls=True
+18:24:54 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:24:54 | tools              | INFO    | get_order_status  identifier='201'
+18:24:54 | tools              | INFO    | searched by tracking
+18:24:54 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:24:55 | nodes              | INFO    | [support:model] tool_calls=False
+18:24:55 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:25:01 | nodes              | INFO    | Orchestrator  query='show me similar food items'
+18:25:02 | nodes              | INFO    |   routing=['menu_agent']  synthesis=False
+18:25:02 | nodes              | INFO    | Menu Agent  task="Provide recommendations for similar food items based on the customer's query."
+18:25:03 | nodes              | INFO    | [menu:model] tool_calls=True
+18:25:03 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Butter Chicken'})
+18:25:03 | tools              | INFO    | search_snackstack_menu query='Butter Chicken'
+18:25:04 | nodes              | INFO    | [menu:model] tool_calls=False
+18:25:04 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:25:28 | nodes              | INFO    | Orchestrator  query='where is my order 202 and show me similar food items to that'
+18:25:29 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:25:29 | nodes              | INFO    | Order Agent  task='Check the status of order 202 and provide an update to the customer.'
+18:25:29 | nodes              | INFO    | Menu Agent  task='Provide recommendations for food items similar to order 202.'
+18:25:29 | nodes              | INFO    | [support:model] tool_calls=True
+18:25:29 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '202'})
+18:25:29 | tools              | INFO    | get_order_status  identifier='202'
+18:25:29 | tools              | INFO    | searched by tracking
+18:25:29 | tools              | INFO    | Order ORD-202:
+  Customer : Arjun Mehta (arjun@example.com)
+  Item     : Margherita Pizza
+  Price    : ₹299
+  Status   : Placed
+  Tracking : SS202TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:25:30 | nodes              | INFO    | [menu:model] tool_calls=True
+18:25:30 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'order 202'})
+18:25:30 | tools              | INFO    | search_snackstack_menu query='order 202'
+18:25:31 | nodes              | INFO    | [support:model] tool_calls=False
+18:25:31 | nodes              | INFO    | [menu:model] tool_calls=True
+18:25:31 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Aglio e Olio'})
+18:25:31 | tools              | INFO    | search_snackstack_menu query='Aglio e Olio'
+18:25:32 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Vegan Pasta Primavera'})
+18:25:32 | tools              | INFO    | search_snackstack_menu query='Vegan Pasta Primavera'
+18:25:32 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Margherita Pizza'})
+18:25:32 | tools              | INFO    | search_snackstack_menu query='Margherita Pizza'
+18:25:36 | nodes              | INFO    | [menu:model] tool_calls=False
+18:25:36 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:26:25 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:26:28 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:26:28 | tools              | INFO    | search_snackstack_menu query='I am in the mood for italian food, got any?'
+18:26:29 | nodes              | INFO    | [menu:model] tool_calls=True
+18:26:29 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'vegan italian food'})
+18:26:29 | tools              | INFO    | search_snackstack_menu query='vegan italian food'
+18:26:32 | nodes              | INFO    | [menu:model] tool_calls=False
+18:26:36 | nodes              | INFO    | [menu:model] tool_calls=True
+18:26:36 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'vegan Italian food'})
+18:26:36 | tools              | INFO    | search_snackstack_menu query='vegan Italian food'
+18:26:39 | nodes              | INFO    | [menu:model] tool_calls=False
+18:26:42 | nodes              | INFO    | [support:model] tool_calls=True
+18:26:42 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:26:42 | tools              | INFO    | get_order_status  identifier='201'
+18:26:42 | tools              | INFO    | searched by tracking
+18:26:42 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:26:43 | nodes              | INFO    | [support:model] tool_calls=False
+18:26:52 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:26:52 | nodes              | INFO    | Orchestrator  query='My order ORD201 is late show me alternative food options'
+18:26:54 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:26:54 | nodes              | INFO    | Order Agent  task='Check the status of order ORD201 and provide an update to the customer.'
+18:26:54 | nodes              | INFO    | [support:model] tool_calls=True
+18:26:54 | nodes              | INFO    | [support:tools] get_order_status({'identifier': 'ORD201'})
+18:26:54 | tools              | INFO    | get_order_status  identifier='ORD201'
+18:26:54 | tools              | INFO    | searched by order
+18:26:54 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:26:55 | nodes              | INFO    | [support:model] tool_calls=False
+18:26:55 | nodes              | INFO    | running sequentially
+18:26:55 | nodes              | INFO    | Menu Agent  task='Provide alternative food options to the customer.'
+18:26:56 | nodes              | INFO    | [menu:model] tool_calls=True
+18:26:56 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Butter Chicken'})
+18:26:56 | tools              | INFO    | search_snackstack_menu query='Butter Chicken'
+18:26:57 | nodes              | INFO    | [menu:model] tool_calls=False
+18:26:57 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:27:08 | nodes              | INFO    | Orchestrator  query='Where is my order?'
+18:27:09 | nodes              | INFO    |   routing=['order_agent']  synthesis=False
+18:27:09 | nodes              | INFO    | Order Agent  task="Check the status of the customer's order and provide an update."
+18:27:11 | nodes              | INFO    | [support:model] tool_calls=False
+18:27:11 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:27:16 | nodes              | INFO    | Order Agent  task="Check the status of the customer's order and provide an update."
+18:27:17 | nodes              | INFO    | [support:model] tool_calls=False
+18:27:17 | nodes              | INFO    | [support:model] HITL: interrupting to collect user info
+18:27:17 | nodes              | INFO    | [support:model] HITL: user replied '201'
+18:27:18 | nodes              | INFO    | [support:model] tool_calls=True
+18:27:18 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:27:18 | tools              | INFO    | get_order_status  identifier='201'
+18:27:18 | tools              | INFO    | searched by tracking
+18:27:18 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:27:19 | nodes              | INFO    | [support:model] tool_calls=False
+18:27:19 | nodes              | INFO    | running sequentially
+18:27:19 | nodes              | INFO    | Synthesizer  single-agent pass-through
+18:27:29 | main               | INFO    | Assistant ready  (voice=False)
+18:27:39 | nodes              | INFO    | Orchestrator  query='where is my order 201 and show me similar food options to it'
+18:27:41 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:27:41 | nodes              | INFO    | Order Agent  task='Check the status of order 201.'
+18:27:41 | nodes              | INFO    | [support:model] tool_calls=True
+18:27:41 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:27:41 | tools              | INFO    | get_order_status  identifier='201'
+18:27:41 | tools              | INFO    | searched by tracking
+18:27:41 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:27:43 | nodes              | INFO    | [support:model] tool_calls=False
+18:27:43 | nodes              | INFO    | running sequentially
+18:27:43 | nodes              | INFO    | Menu Agent  task='Provide similar food options to order 201.'
+18:27:43 | nodes              | INFO    | [menu:model] tool_calls=True
+18:27:43 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Butter Chicken'})
+18:27:43 | tools              | INFO    | search_snackstack_menu query='Butter Chicken'
+18:27:45 | nodes              | INFO    | [menu:model] tool_calls=False
+18:27:45 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:30:38 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:30:44 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:30:45 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:30:45 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:30:46 | main               | INFO    | Assistant ready  (voice=False)
+18:30:55 | nodes              | INFO    | Orchestrator  query='my order 201 is late, shoe me similar food items'
+18:30:57 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:30:57 | nodes              | INFO    | Order Agent  task='Check the status of order 201 and provide an update to the customer.'
+18:30:58 | nodes              | INFO    | [support:model] tool_calls=True
+18:30:58 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:30:58 | tools              | INFO    | get_order_status  identifier='201'
+18:30:58 | tools              | INFO    | searched by tracking
+18:30:58 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:30:59 | nodes              | INFO    | [support:model] tool_calls=False
+18:30:59 | nodes              | INFO    | running sequentially
+18:30:59 | nodes              | INFO    | Menu Agent  task='Show similar food items to the customer.'
+18:31:00 | nodes              | INFO    | [menu:model] tool_calls=True
+18:31:00 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Chicken Tikka Masala'})
+18:31:00 | tools              | INFO    | search_snackstack_menu query='Chicken Tikka Masala'
+18:31:01 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Paneer Butter Masala'})
+18:31:01 | tools              | INFO    | search_snackstack_menu query='Paneer Butter Masala'
+18:31:01 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Mutton Rogan Josh'})
+18:31:01 | tools              | INFO    | search_snackstack_menu query='Mutton Rogan Josh'
+18:31:04 | nodes              | INFO    | [menu:model] tool_calls=False
+18:31:04 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:32:00 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:32:01 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:32:01 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:32:01 | main               | INFO    | Assistant ready  (voice=False)
+18:32:07 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:32:08 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:32:08 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:32:09 | main               | INFO    | Assistant ready  (voice=False)
+18:32:18 | nodes              | INFO    | Orchestrator  query='my order 201 is late, show me similar food items'
+18:32:20 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:32:20 | nodes              | INFO    | Order Agent  task='Check the status of order 201 and provide an update to the customer.'
+18:32:20 | nodes              | INFO    | Menu Agent  task='Recommend similar food items to the customer.'
+18:32:20 | nodes              | INFO    | [support:model] tool_calls=True
+18:32:20 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:32:20 | tools              | INFO    | get_order_status  identifier='201'
+18:32:20 | tools              | INFO    | searched by tracking
+18:32:20 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:32:21 | nodes              | INFO    | [menu:model] tool_calls=True
+18:32:21 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'order 201'})
+18:32:21 | tools              | INFO    | search_snackstack_menu query='order 201'
+18:32:21 | nodes              | INFO    | [support:model] tool_calls=False
+18:32:22 | nodes              | INFO    | [menu:model] tool_calls=True
+18:32:22 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Italian main course'})
+18:32:22 | tools              | INFO    | search_snackstack_menu query='Italian main course'
+18:32:23 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'American main course'})
+18:32:23 | tools              | INFO    | search_snackstack_menu query='American main course'
+18:32:26 | nodes              | INFO    | [menu:model] tool_calls=False
+18:32:26 | nodes              | INFO    | Synthesizer  merging 2 agent responses
+18:32:50 | config             | INFO    | OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)
+18:32:51 | rag                | INFO    | Vector store ready  (8 products indexed)
+18:32:51 | graph              | INFO    | Graph compiled  (with MemorySaver for conversation persistence)
+18:32:51 | main               | INFO    | Assistant ready  (voice=False)
+18:33:06 | nodes              | INFO    | Orchestrator  query='my order 201 is late, show me similar food options'
+18:33:08 | nodes              | INFO    |   routing=['order_agent', 'menu_agent']  synthesis=True
+18:33:08 | nodes              | INFO    | Order Agent  task='Check the status of order 201 and provide an update to the customer.'
+18:33:08 | nodes              | INFO    | [support:model] tool_calls=True
+18:33:08 | nodes              | INFO    | [support:tools] get_order_status({'identifier': '201'})
+18:33:08 | tools              | INFO    | get_order_status  identifier='201'
+18:33:08 | tools              | INFO    | searched by tracking
+18:33:08 | tools              | INFO    | Order ORD-201:
+  Customer : Priya Nair (priya@example.com)
+  Item     : Butter Chicken
+  Price    : ₹379
+  Status   : Out for Delivery
+  Tracking : SS201TRK
+  Ordered  : 2026-05-12 5:30pm
+  ETA      : 2026-05-12 6:30pm
+18:33:09 | nodes              | INFO    | [support:model] tool_calls=False
+18:33:09 | nodes              | INFO    | running sequentially
+18:33:09 | nodes              | INFO    | Menu Agent  task='Provide similar food options to the customer.'
+18:33:12 | nodes              | INFO    | [menu:model] tool_calls=True
+18:33:12 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Butter Chicken'})
+18:33:12 | tools              | INFO    | search_snackstack_menu query='Butter Chicken'
+18:33:12 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Chicken Tikka Masala'})
+18:33:12 | tools              | INFO    | search_snackstack_menu query='Chicken Tikka Masala'
+18:33:12 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Paneer Butter Masala'})
+18:33:12 | tools              | INFO    | search_snackstack_menu query='Paneer Butter Masala'
+18:33:12 | nodes              | INFO    | [menu:tools] search_snackstack_menu({'query': 'Chicken Korma'})
+18:33:12 | tools              | INFO    | search_snackstack_menu query='Chicken Korma'
+18:33:15 | nodes              | INFO    | [menu:model] tool_calls=False
+18:33:15 | nodes              | INFO    | Synthesizer  merging 2 agent responses
