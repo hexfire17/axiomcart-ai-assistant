@@ -109,8 +109,8 @@ ORDER_DATABASE: dict[str, dict] = {
         "customer_email": "priya@example.com",
         "status": "Out for Delivery",
         "price": 379,
-        "order_date": "2026-05-12",
-        "estimated_delivery": "2026-05-13",
+        "order_date": "2026-05-12 5:30pm",
+        "estimated_delivery": "2026-05-12 6:30pm",
         "tracking_id": "SS201TRK"
     },
     "ORD-202": {
@@ -120,8 +120,8 @@ ORDER_DATABASE: dict[str, dict] = {
         "customer_email": "arjun@example.com",
         "status": "Placed",
         "price": 299,
-        "order_date": "2026-05-13",
-        "estimated_delivery": "2026-05-13",
+        "order_date": "2026-05-12 5:30pm",
+        "estimated_delivery": "2026-05-12 6:30pm",
         "tracking_id": "SS202TRK"
     },
     "ORD-203": {
@@ -131,8 +131,8 @@ ORDER_DATABASE: dict[str, dict] = {
         "customer_email": "sneha@example.com",
         "status": "Preparing",
         "price": 259,
-        "order_date": "2026-05-13",
-        "estimated_delivery": "2026-05-13",
+        "order_date": "2026-05-12 5:30pm",
+        "estimated_delivery": "2026-05-12 6:30pm",
         "tracking_id": "SS203TRK"
     },
     "ORD-204": {
@@ -142,8 +142,8 @@ ORDER_DATABASE: dict[str, dict] = {
         "customer_email": "rahul@example.com",
         "status": "Delivered",
         "price": 319,
-        "order_date": "2026-05-13",
-        "estimated_delivery": "2026-05-13",
+        "order_date": "2026-05-12 5:30pm",
+        "estimated_delivery": "2026-05-12 6:30pm",
         "tracking_id": "SS204TRK"
     },
     "ORD-205": {
@@ -153,8 +153,8 @@ ORDER_DATABASE: dict[str, dict] = {
         "customer_email": "kavya@example.com",
         "status": "Placed",
         "price": 199,
-        "order_date": "2026-05-13",
-        "estimated_delivery": "2026-05-13",
+        "order_date": "2026-05-12 5:30pm",
+        "estimated_delivery": "2026-05-12 6:30pm",
         "tracking_id": "SS205TRK"
     }
 }

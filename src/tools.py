@@ -74,7 +74,7 @@ def get_order_status(identifier: str) -> str:
     """Look up the current status of a customer order.
 
     Args:
-        identifier: an order ID (e.g. "ORD101") OR a customer email address
+        identifier: an order ID (e.g. "ORD201"), tracking number e.g SS201TRK, OR a customer email address
     """
     logger.info("get_order_status  identifier=%r", identifier)
     order = None
@@ -96,7 +96,6 @@ def get_order_status(identifier: str) -> str:
 
     if not order:
         return f"No order found for: {identifier}"
-
 
     info = (
         f"Order {oid}:\n"
